@@ -1,11 +1,12 @@
-import type { MetaFunction, LoaderFunction } from 'remix'
-import { useLoaderData, json, Link } from 'remix'
+import type { MetaFunction } from 'remix'
 
-type IndexData = {}
+import Sidebar from '~/components/Sidebar'
 
-export const loader: LoaderFunction = () => {
-  return json({})
-}
+// type IndexData = {}
+
+// export const loader: LoaderFunction = () => {
+//   return json({})
+// }
 
 export const meta: MetaFunction = () => {
   return {
@@ -15,13 +16,15 @@ export const meta: MetaFunction = () => {
 }
 
 export default function Index() {
-  const data = useLoaderData<IndexData>()
+  //const data = useLoaderData<IndexData>()
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="bg-black h-screen">
       <main>
-        <h1>This is a DOPE spotify build.</h1>
+        <Sidebar />
+        {/* Center */}
       </main>
+      <div>{/* Player */}</div>
     </div>
   )
 }
