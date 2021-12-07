@@ -33,22 +33,25 @@ export const loader: LoaderFunction = async ({ request }) => {
     }).toString()
   }
 
-  const response = await (
-    await fetch('https://accounts.spotify.com/api/token', options)
-  ).json()
-
-  console.log(JSON.stringify(response))
-
-  const requestError = _.get(response, 'error')
-  const errorDescription = _.get(response, 'error_description')
-  if (requestError) throw new Error(requestError + ': ' + errorDescription)
-
-  const accessToken = _.get(response, 'access_token')
-  const refreshToken = _.get(response, 'refresh_token')
-
-  if (!accessToken) throw new Error('Missing accessToken')
+  const [accessToken, refreshToken] = await fetchToken(options)
 
   return redirect(
     uri + '?access_token=' + accessToken + '&refresh_token=' + refreshToken
   )
+}
+
+const fetchToken = async (options: RequestInit): Promise<string[]> => {
+  return fetch('https://accounts.spotify.com/api/token', options)
+    .then(response => response.json())
+    .then(data => {
+      const requestError = _.get(data, 'error')
+      const errorDescription = _.get(data, 'error_description')
+      if (requestError) throw new Error(requestError + ': ' + errorDescription)
+
+      const accessToken = _.get(data, 'access_token')
+      const refreshToken = _.get(data, 'refresh_token')
+      if (!accessToken) throw new Error('Missing accessToken')
+
+      return [accessToken, refreshToken]
+    })
 }
