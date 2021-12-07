@@ -1,12 +1,13 @@
-import type { MetaFunction } from 'remix'
+import type { MetaFunction, LoaderFunction } from 'remix'
+import { json, useLoaderData } from 'remix'
 
 import Sidebar from '~/components/Sidebar'
 
-// type IndexData = {}
+type IndexData = { keys: string }
 
-// export const loader: LoaderFunction = () => {
-//   return json({})
-// }
+export const loader: LoaderFunction = () => {
+  return json({ keys: process.env.SPOTIFY_CLIENT_ID })
+}
 
 export const meta: MetaFunction = () => {
   return {
@@ -16,12 +17,14 @@ export const meta: MetaFunction = () => {
 }
 
 export default function Index() {
-  //const data = useLoaderData<IndexData>()
+  const data = useLoaderData<IndexData>()
 
+  console.log(data)
   return (
     <div className="bg-black h-screen">
       <main>
         <Sidebar />
+
         {/* Center */}
       </main>
       <div>{/* Player */}</div>
