@@ -46,7 +46,7 @@ const SidebarDivider = () => <hr className="border-t-[0.1px] border-gray-900" />
 
 const Sidebar = () => {
   return (
-    <div className="text-gray-500 p-5 text-sm border-gray-900">
+    <div className="text-gray-500 p-5 text-sm border-gray-900 border-r overflow-y-scroll scrollbar-hide h-screen">
       <div className="space-y-4">
         <Form action="/logout" method="post">
           <button className="cursor-pointer hover:text-white">Logout</button>
@@ -61,6 +61,14 @@ const Sidebar = () => {
         <SidebarDivider />
 
         {/* Playlists */}
+        <p className="cursor-pointer hover:text-white">Playlist name...</p>
+        <p className="cursor-pointer hover:text-white">Playlist name...</p>
+        <p className="cursor-pointer hover:text-white">Playlist name...</p>
+        <p className="cursor-pointer hover:text-white">Playlist name...</p>
+        <p className="cursor-pointer hover:text-white">Playlist name...</p>
+        <p className="cursor-pointer hover:text-white">Playlist name...</p>
+        <p className="cursor-pointer hover:text-white">Playlist name...</p>
+        <p className="cursor-pointer hover:text-white">Playlist name...</p>
         <p className="cursor-pointer hover:text-white">Playlist name...</p>
         <p className="cursor-pointer hover:text-white">Playlist name...</p>
         <p className="cursor-pointer hover:text-white">Playlist name...</p>

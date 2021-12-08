@@ -4,6 +4,7 @@ import { User } from '~/models/user'
 import { authenticator } from '~/services/auth.server'
 
 import Sidebar from '~/components/Sidebar'
+import Center from '~/components/Center'
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await authenticator.isAuthenticated(request, {
@@ -27,10 +28,9 @@ export default function Index() {
 
   return (
     <div className="bg-black h-screen">
-      <main>
+      <main className="flex">
         <Sidebar />
-
-        {/* Center */}
+        <Center />
       </main>
       <div>{/* Player */}</div>
     </div>

@@ -25,7 +25,8 @@
     "react-router-dom": "^6.0.2",
     "remix": "^1.0.6",
     "remix-auth": "^2.5.0-0",
-    "spotify-web-api-node": "^5.0.2"
+    "spotify-web-api-node": "^5.0.2",
+    "tailwind-scrollbar-hide": "^1.1.6"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
