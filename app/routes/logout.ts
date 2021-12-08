@@ -9,6 +9,6 @@ export const action: ActionFunction = async ({ request }) => {
   })
 }
 
-export let loader: LoaderFunction = () => {
+export const loader: LoaderFunction = () => {
   throw json({}, { status: 404 })
 }
