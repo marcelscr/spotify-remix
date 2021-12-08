@@ -29,6 +29,12 @@ export default function Index() {
     <div className="bg-black h-screen">
       <main>
         <Sidebar />
+
+        {/* {data.user && (
+          <Form action="/logout" method="post">
+            <button>Logout</button>
+          </Form>
+        )} */}
         {/* Center */}
       </main>
       <div>{/* Player */}</div>
