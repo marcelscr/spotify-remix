@@ -6,7 +6,10 @@ import { authenticator } from '~/services/auth.server'
 import Sidebar from '~/components/Sidebar'
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const user = await authenticator.isAuthenticated(request)
+  const user = await authenticator.isAuthenticated(request, {
+    failureRedirect: '/login'
+  })
+
   return { message: 'this is awesome 😎', user }
 }
 
@@ -21,18 +24,13 @@ export default function Index() {
   const data = useLoaderData<{ user: User; message: string }>()
 
   console.log(data)
+
   return (
     <div className="bg-black h-screen">
       <main>
         <Sidebar />
 
         <p>Message from the loader: {data.message}</p>
-        {!data.user && (
-          <p>
-            <Link to="login">Link to login page.</Link> Clicking this link will
-            land you in the login page UI.
-          </p>
-        )}
         {data.user && (
           <Form action="/logout" method="post">
             <button>Logout</button>

@@ -24,6 +24,12 @@ authenticator.use(
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
       callbackURL: process.env.CALLBACK_URL
     },
-    async (_, __, ___, profile) => login(profile.email)
+    async (_, __, ___, profile) =>
+      login(
+        profile.id,
+        profile.email,
+        profile.displayName,
+        profile.images?.[0]?.url
+      )
   )
 )

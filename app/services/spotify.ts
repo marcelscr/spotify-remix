@@ -98,7 +98,7 @@ export class SpotifyStrategy<User> extends OAuth2Strategy<
     if (!tokenType) throw new AuthorizationError('Missing token type.')
 
     const refreshToken = new URLSearchParams(data).get('refresh_token')
-    if (!refreshToken) throw new AuthorizationError('Missing refresh type.')
+    if (!refreshToken) throw new AuthorizationError('Missing refresh token.')
 
     return {
       accessToken,
