@@ -3,7 +3,7 @@ export default function Login() {
     <div className="flex flex-col items-center bg-black min-h-screen w-full justify-center">
       <SpotifyLogo />
       <form action="/auth/spotify" method="post">
-        <button className="bg-[#18D860] p-5 rounded-full">
+        <button className="bg-[#18D860] p-5 rounded-full font-semibold">
           Login with Spotify
         </button>
       </form>
