@@ -1,5 +1,5 @@
 import type { MetaFunction, LoaderFunction } from 'remix'
-import { Form, useLoaderData } from 'remix'
+import { useLoaderData } from 'remix'
 import { User } from '~/models/user'
 import { authenticator } from '~/services/auth.server'
 
@@ -30,11 +30,6 @@ export default function Index() {
       <main>
         <Sidebar />
 
-        {data.user && (
-          <Form action="/logout" method="post">
-            <button>Logout</button>
-          </Form>
-        )}
         {/* Center */}
       </main>
       <div>{/* Player */}</div>

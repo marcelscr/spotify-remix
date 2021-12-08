@@ -6,6 +6,7 @@ import {
   HeartIcon,
   RssIcon
 } from '@heroicons/react/outline'
+import { Form } from 'remix'
 
 const items = {
   home: {
@@ -47,6 +48,9 @@ const Sidebar = () => {
   return (
     <div className="text-gray-500 p-5 text-sm border-gray-900">
       <div className="space-y-4">
+        <Form action="/logout" method="post">
+          <button className="cursor-pointer hover:text-white">Logout</button>
+        </Form>
         <SidebarButton item={items.home} />
         <SidebarButton item={items.search} />
         <SidebarButton item={items.library} />
@@ -57,12 +61,6 @@ const Sidebar = () => {
         <SidebarDivider />
 
         {/* Playlists */}
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
         <p className="cursor-pointer hover:text-white">Playlist name...</p>
         <p className="cursor-pointer hover:text-white">Playlist name...</p>
         <p className="cursor-pointer hover:text-white">Playlist name...</p>
