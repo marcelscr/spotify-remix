@@ -5,8 +5,8 @@ import { authenticator } from '~/services/auth.server'
 
 import Sidebar from '~/components/Sidebar'
 
-export let loader: LoaderFunction = async ({ request }) => {
-  let user = await authenticator.isAuthenticated(request)
+export const loader: LoaderFunction = async ({ request }) => {
+  const user = await authenticator.isAuthenticated(request)
   return { message: 'this is awesome 😎', user }
 }
 

@@ -3,7 +3,7 @@ import { login, User } from '~/models/user'
 import { sessionStorage } from '~/services/session.server'
 import { SpotifyStrategy } from './spotify'
 
-export let authenticator = new Authenticator<User>(sessionStorage)
+export const authenticator = new Authenticator<User>(sessionStorage)
 
 if (!process.env.SPOTIFY_CLIENT_ID) {
   throw new Error('Missing SPOTIFY_CLIENT_ID env')

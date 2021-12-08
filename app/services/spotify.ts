@@ -65,15 +65,15 @@ export class SpotifyStrategy<User> extends OAuth2Strategy<
   }
 
   protected async userProfile(accessToken: string): Promise<SpotifyProfile> {
-    let response = await fetch(this.userInfoURL, {
+    const response = await fetch(this.userInfoURL, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`
       }
     })
-    let data: SpotifyProfile = await response.json()
+    const data: SpotifyProfile = await response.json()
 
-    let profile: SpotifyProfile = {
+    const profile: SpotifyProfile = {
       provider: 'spotify',
       id: data.id,
       display_name: data.display_name,
@@ -89,15 +89,15 @@ export class SpotifyStrategy<User> extends OAuth2Strategy<
     refreshToken: string
     extraParams: SpotifyExtraParams
   }> {
-    let data = await response.json()
+    const data = await response.json()
 
-    let accessToken = new URLSearchParams(data).get('access_token')
+    const accessToken = new URLSearchParams(data).get('access_token')
     if (!accessToken) throw new AuthorizationError('Missing access token.')
 
-    let tokenType = new URLSearchParams(data).get('token_type')
+    const tokenType = new URLSearchParams(data).get('token_type')
     if (!tokenType) throw new AuthorizationError('Missing token type.')
 
-    let refreshToken = new URLSearchParams(data).get('refresh_token')
+    const refreshToken = new URLSearchParams(data).get('refresh_token')
     if (!refreshToken) throw new AuthorizationError('Missing refresh type.')
 
     return {
