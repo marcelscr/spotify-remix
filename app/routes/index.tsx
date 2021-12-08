@@ -1,12 +1,13 @@
 import type { MetaFunction, LoaderFunction } from 'remix'
-import { json, useLoaderData } from 'remix'
+import { Link, Form, useLoaderData } from 'remix'
+import { User } from '~/models/user'
+import { authenticator } from '~/services/auth.server'
 
 import Sidebar from '~/components/Sidebar'
 
-type IndexData = { keys: string }
-
-export const loader: LoaderFunction = () => {
-  return json({ keys: process.env.SPOTIFY_CLIENT_ID })
+export let loader: LoaderFunction = async ({ request }) => {
+  let user = await authenticator.isAuthenticated(request)
+  return { message: 'this is awesome 😎', user }
 }
 
 export const meta: MetaFunction = () => {
@@ -17,7 +18,7 @@ export const meta: MetaFunction = () => {
 }
 
 export default function Index() {
-  const data = useLoaderData<IndexData>()
+  const data = useLoaderData<{ user: User; message: string }>()
 
   console.log(data)
   return (
@@ -25,6 +26,18 @@ export default function Index() {
       <main>
         <Sidebar />
 
+        <p>Message from the loader: {data.message}</p>
+        {!data.user && (
+          <p>
+            <Link to="login">Link to login page.</Link> Clicking this link will
+            land you in the login page UI.
+          </p>
+        )}
+        {data.user && (
+          <Form action="/logout" method="post">
+            <button>Logout</button>
+          </Form>
+        )}
         {/* Center */}
       </main>
       <div>{/* Player */}</div>
