@@ -6,10 +6,17 @@ export interface User {
   image?: string
 }
 
-export interface PrivateUser extends User {
-  credentials: {
-    accessToken: string
-  }
+// Auth
+export interface AuthTokens {
+  accessToken: string
+  refreshToken: string
+  expiresIn?: number
+  tokenType: string
+}
+
+export interface AuthResponse {
+  user: User
+  tokens: AuthTokens
 }
 
 // Playlist

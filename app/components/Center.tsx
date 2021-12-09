@@ -40,8 +40,8 @@ export function Center({ user }: Props) {
       </header>
 
       <section
-        className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-60 text-white p-8`}>
-        <h1>Hello</h1>
+        className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-60 text-white p-8 `}>
+        <h1>Titulo da playlist</h1>
       </section>
     </div>
   )

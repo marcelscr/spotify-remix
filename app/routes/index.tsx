@@ -3,22 +3,25 @@ import { useLoaderData } from 'remix'
 
 import Sidebar from '~/components/Sidebar'
 import Center from '~/components/Center'
-import useSpotify from '~/hooks/useSpotify'
+import spotifyApi from '~/lib/spotify'
 import { authenticator } from '~/services/auth.server'
 import type { User, Playlist } from '~/types'
-import { toPublicUser } from '~/models/user'
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const privateUser = await authenticator.isAuthenticated(request, {
+  const { user, tokens } = await authenticator.isAuthenticated(request, {
     failureRedirect: '/login'
   })
 
-  const spotifyApi = useSpotify(privateUser)
-  const playlists = await spotifyApi
-    .getUserPlaylists()
-    .then(data => data.body.items)
+  const api = await spotifyApi(request, tokens)
+  const playlists = await api.getUserPlaylists().then(data => data.body.items)
+  const featuredPlaylists = await api
+    .getFeaturedPlaylists()
+    .then(data => data.body.playlists.items)
 
-  return { user: toPublicUser(privateUser), playlists: playlists ?? [] }
+  return {
+    user,
+    playlists: [...playlists, ...featuredPlaylists] ?? []
+  }
 }
 
 export const meta: MetaFunction = () => {
