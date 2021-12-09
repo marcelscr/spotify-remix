@@ -31,7 +31,21 @@ export function Center({ user, playlist }: Props) {
 
   const loadingComponent = <h1>Loading...</h1>
   const playlistNotFoundComponent = <h1>Playlist not found</h1>
-  const playlistComponent = <h1>{playlist?.name}</h1>
+  const playlistComponent = (
+    <>
+      <img
+        className="w-44 h-44 shadow-2xl"
+        src={playlist?.images[0]?.url}
+        alt="playlist image"
+      />
+      <div>
+        <p>PLAYLIST</p>
+        <h1 className="text-2xl md:text-3xl xl:text-5lx font-bold">
+          {playlist?.name}
+        </h1>
+      </div>
+    </>
+  )
 
   return (
     <div className="flex-grow">

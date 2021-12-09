@@ -8,7 +8,6 @@ import {
   useCatch
 } from 'remix'
 import type { LinksFunction } from 'remix'
-import { RecoilRoot } from 'recoil'
 
 import tailwindUrl from './styles/tailwind.css'
 
@@ -18,13 +17,11 @@ export const links: LinksFunction = () => {
 
 export default function App() {
   return (
-    <RecoilRoot>
-      <Document>
-        <Layout>
-          <Outlet />
-        </Layout>
-      </Document>
-    </RecoilRoot>
+    <Document>
+      <Layout>
+        <Outlet />
+      </Layout>
+    </Document>
   )
 }
 
