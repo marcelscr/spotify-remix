@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/outline'
 import { sample } from 'lodash'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import type { User } from '~/types'
+import { playlistIdState, playlistState } from '~/atoms/playlistAtom'
 
 const colors = [
   'from-indigo-500',
@@ -20,10 +22,12 @@ type Props = {
 
 export function Center({ user }: Props) {
   const [color, setColor] = useState('')
+  const playlistId = useRecoilValue(playlistIdState)
+  const [playlist, setPlaylist] = useRecoilState(playlistState)
 
   useEffect(() => {
     setColor(sample(colors) ?? colors[0])
-  }, [])
+  }, [playlistId])
 
   return (
     <div className="flex-grow">

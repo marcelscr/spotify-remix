@@ -8,9 +8,11 @@ import {
 } from '@heroicons/react/outline'
 import { Form } from 'remix'
 import _ from 'lodash'
-import { useState } from 'react'
+import { useRecoilState } from 'recoil'
 
 import type { Playlist } from '~/types'
+
+import { playlistIdState } from '~/atoms/playlistAtom'
 
 const items = {
   home: {
@@ -53,7 +55,7 @@ type Props = {
 }
 
 const Sidebar = ({ playlists }: Props) => {
-  const [playlistId, setPlaylistId] = useState<string | null>(null)
+  const [playlistId, setPlaylistId] = useRecoilState(playlistIdState)
 
   console.log('You selected the playlist >>> ' + playlistId)
 
