@@ -8,11 +8,10 @@ import {
 } from '@heroicons/react/outline'
 import { Form } from 'remix'
 import _ from 'lodash'
-import { useRecoilState } from 'recoil'
 
-import type { Playlist } from '~/types'
+import type { SimplifiedPlaylist } from '~/types'
 
-import { playlistIdState } from '~/atoms/playlistAtom'
+import { useSearchParam, SearchParams } from '~/lib/search-params'
 
 const items = {
   home: {
@@ -51,11 +50,14 @@ const SidebarButton = ({ item }: SidebarButtonProps) => (
 const SidebarDivider = () => <hr className="border-t-[0.1px] border-gray-900" />
 
 type Props = {
-  playlists: Playlist[]
+  playlists: SimplifiedPlaylist[]
 }
 
 const Sidebar = ({ playlists }: Props) => {
-  const [playlistId, setPlaylistId] = useRecoilState(playlistIdState)
+  const [playlistId, setPlaylist] = useSearchParam(
+    SearchParams.PLAYLIST_ID,
+    null
+  )
 
   console.log('You selected the playlist >>> ' + playlistId)
 
@@ -78,7 +80,7 @@ const Sidebar = ({ playlists }: Props) => {
           return (
             <p
               key={playlist.id}
-              onClick={() => setPlaylistId(playlist.id)}
+              onClick={() => setPlaylist(playlist.id)}
               className="cursor-pointer hover:text-white">
               {playlist.name}
             </p>

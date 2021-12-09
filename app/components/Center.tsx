@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/outline'
 import { sample } from 'lodash'
-import { useRecoilState, useRecoilValue } from 'recoil'
 
-import type { User } from '~/types'
-import { playlistIdState, playlistState } from '~/atoms/playlistAtom'
+import type { User, FullPlaylist } from '~/types'
+import { useTransition } from 'remix'
 
 const colors = [
   'from-indigo-500',
@@ -18,16 +17,21 @@ const colors = [
 
 type Props = {
   user: User
+  playlist?: FullPlaylist
 }
 
-export function Center({ user }: Props) {
+export function Center({ user, playlist }: Props) {
   const [color, setColor] = useState('')
-  const playlistId = useRecoilValue(playlistIdState)
-  const [playlist, setPlaylist] = useRecoilState(playlistState)
+  const transition = useTransition()
+  const loading = transition.state === 'loading'
 
   useEffect(() => {
     setColor(sample(colors) ?? colors[0])
-  }, [playlistId])
+  }, [playlist])
+
+  const loadingComponent = <h1>Loading...</h1>
+  const playlistNotFoundComponent = <h1>Playlist not found</h1>
+  const playlistComponent = <h1>{playlist?.name}</h1>
 
   return (
     <div className="flex-grow">
@@ -45,7 +49,11 @@ export function Center({ user }: Props) {
 
       <section
         className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-60 text-white p-8 `}>
-        <h1>Titulo da playlist</h1>
+        {loading
+          ? loadingComponent
+          : playlist
+          ? playlistComponent
+          : playlistNotFoundComponent}
       </section>
     </div>
   )
