@@ -8,6 +8,7 @@ import {
 } from '@heroicons/react/outline'
 import { Form } from 'remix'
 import _ from 'lodash'
+import { useState } from 'react'
 
 import type { Playlist } from '~/types'
 
@@ -52,6 +53,10 @@ type Props = {
 }
 
 const Sidebar = ({ playlists }: Props) => {
+  const [playlistId, setPlaylistId] = useState<string | null>(null)
+
+  console.log('You selected the playlist >>> ' + playlistId)
+
   return (
     <div className="text-gray-500 p-5 text-sm border-gray-900 border-r overflow-y-scroll scrollbar-hide h-screen pr-16">
       <div className="space-y-4">
@@ -69,7 +74,10 @@ const Sidebar = ({ playlists }: Props) => {
 
         {_.map(playlists, playlist => {
           return (
-            <p key={playlist.id} className="cursor-pointer hover:text-white">
+            <p
+              key={playlist.id}
+              onClick={() => setPlaylistId(playlist.id)}
+              className="cursor-pointer hover:text-white">
               {playlist.name}
             </p>
           )
