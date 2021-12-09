@@ -1,9 +1,10 @@
 import { Authenticator } from 'remix-auth'
-import { login, User } from '~/models/user'
+import type { PrivateUser } from '~/types'
+import { login } from '~/models/user'
 import { sessionStorage } from '~/services/session.server'
 import { SpotifyStrategy } from './spotify'
 
-export const authenticator = new Authenticator<User>(sessionStorage)
+export const authenticator = new Authenticator<PrivateUser>(sessionStorage)
 
 if (!process.env.SPOTIFY_CLIENT_ID) {
   throw new Error('Missing SPOTIFY_CLIENT_ID env')
@@ -24,12 +25,14 @@ authenticator.use(
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
       callbackURL: process.env.CALLBACK_URL
     },
-    async (_, __, ___, profile) =>
-      login(
+    async (accessToken, _, __, profile) => {
+      return login(
+        { accessToken },
         profile.id,
         profile.email,
         profile.displayName,
         profile.images?.[0]?.url
       )
+    }
   )
 )

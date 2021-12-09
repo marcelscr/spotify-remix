@@ -1,15 +1,16 @@
-export interface User {
-  id: string
-  email: string
-  name?: string
-  image?: string
+import { omit } from 'lodash'
+import type { User, PrivateUser } from '~/types'
+
+export function toPublicUser(user: PrivateUser): User {
+  return omit(user, 'credentials')
 }
 
 export async function login(
+  credentials: { accessToken: string },
   id: string,
   email: string,
   name?: string,
   image?: string
-): Promise<User> {
-  return { id, email, name, image }
+): Promise<PrivateUser> {
+  return { credentials, id, email, name, image }
 }

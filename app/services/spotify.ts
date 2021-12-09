@@ -25,6 +25,7 @@ export interface SpotifyStrategyOptions {
 
 export interface SpotifyExtraParams extends Record<string, string | number> {
   tokenType: string
+  expiresIn: number
 }
 
 export class SpotifyStrategy<User> extends OAuth2Strategy<
@@ -100,10 +101,13 @@ export class SpotifyStrategy<User> extends OAuth2Strategy<
     const refreshToken = new URLSearchParams(data).get('refresh_token')
     if (!refreshToken) throw new AuthorizationError('Missing refresh token.')
 
+    const expiresIn = new URLSearchParams(data).get('expires_in')
+    if (!expiresIn) throw new AuthorizationError('Missing expires in.')
+
     return {
       accessToken,
       refreshToken,
-      extraParams: { tokenType }
+      extraParams: { tokenType, expiresIn: Number(expiresIn) }
     } as const
   }
 }

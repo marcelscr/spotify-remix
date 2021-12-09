@@ -1,3 +1,11 @@
+import type { MetaFunction } from 'remix'
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Login - Spotify Remix'
+  }
+}
+
 export default function Login() {
   return (
     <div className="flex flex-col items-center bg-black min-h-screen w-full justify-center">

@@ -7,6 +7,9 @@ import {
   RssIcon
 } from '@heroicons/react/outline'
 import { Form } from 'remix'
+import _ from 'lodash'
+
+import type { Playlist } from '~/types'
 
 const items = {
   home: {
@@ -44,9 +47,13 @@ const SidebarButton = ({ item }: SidebarButtonProps) => (
 
 const SidebarDivider = () => <hr className="border-t-[0.1px] border-gray-900" />
 
-const Sidebar = () => {
+type Props = {
+  playlists: Playlist[]
+}
+
+const Sidebar = ({ playlists }: Props) => {
   return (
-    <div className="text-gray-500 p-5 text-sm border-gray-900 border-r overflow-y-scroll scrollbar-hide h-screen">
+    <div className="text-gray-500 p-5 text-sm border-gray-900 border-r overflow-y-scroll scrollbar-hide h-screen pr-16">
       <div className="space-y-4">
         <Form action="/logout" method="post">
           <button className="cursor-pointer hover:text-white">Logout</button>
@@ -60,23 +67,13 @@ const Sidebar = () => {
         <SidebarButton item={items.yourEpisodes} />
         <SidebarDivider />
 
-        {/* Playlists */}
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
-        <p className="cursor-pointer hover:text-white">Playlist name...</p>
+        {_.map(playlists, playlist => {
+          return (
+            <p key={playlist.id} className="cursor-pointer hover:text-white">
+              {playlist.name}
+            </p>
+          )
+        })}
       </div>
     </div>
   )
