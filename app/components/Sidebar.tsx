@@ -6,12 +6,10 @@ import {
   HeartIcon,
   RssIcon
 } from '@heroicons/react/outline'
-import { Form } from 'remix'
+import { Form, Link } from 'remix'
 import _ from 'lodash'
 
 import type { SimplifiedPlaylist } from '~/types'
-
-import { useSearchParam, SearchParams } from '~/lib/search-params'
 
 const items = {
   home: {
@@ -54,13 +52,6 @@ type Props = {
 }
 
 const Sidebar = ({ playlists }: Props) => {
-  const [playlistId, setPlaylist] = useSearchParam(
-    SearchParams.PLAYLIST_ID,
-    null
-  )
-
-  console.log('You selected the playlist >>> ' + playlistId)
-
   return (
     <div className="text-gray-500 p-5 text-sm border-gray-900 border-r overflow-y-scroll scrollbar-hide h-screen pr-16">
       <div className="space-y-4">
@@ -78,11 +69,13 @@ const Sidebar = ({ playlists }: Props) => {
 
         {_.map(playlists, playlist => {
           return (
-            <p
-              key={playlist.id}
-              onClick={() => setPlaylist(playlist.id)}
-              className="cursor-pointer hover:text-white">
-              {playlist.name}
+            <p>
+              <Link
+                key={playlist.id}
+                to={`/playlists/${playlist.id}`}
+                className="cursor-pointer hover:text-white">
+                {playlist.name}
+              </Link>
             </p>
           )
         })}
