@@ -10,6 +10,7 @@ import {
 import type { LinksFunction } from 'remix'
 
 import tailwindUrl from './styles/tailwind.css'
+import { RecoilRoot } from 'recoil'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: tailwindUrl }]
@@ -17,11 +18,11 @@ export const links: LinksFunction = () => {
 
 export default function App() {
   return (
-    <Document>
-      <Layout>
+    <RecoilRoot>
+      <Document>
         <Outlet />
-      </Layout>
-    </Document>
+      </Document>
+    </RecoilRoot>
   )
 }
 
@@ -29,17 +30,15 @@ export function ErrorBoundary({ error }: { error: Error }) {
   console.error(error)
   return (
     <Document title="Error!">
-      <Layout>
-        <div>
-          <h1>There was an error</h1>
-          <p>{error.message}</p>
-          <hr />
-          <p>
-            Hey, developer, you should replace this with what you want your
-            users to see.
-          </p>
-        </div>
-      </Layout>
+      <div>
+        <h1>There was an error</h1>
+        <p>{error.message}</p>
+        <hr />
+        <p>
+          Hey, developer, you should replace this with what you want your users
+          to see.
+        </p>
+      </div>
     </Document>
   )
 }
@@ -69,12 +68,12 @@ export function CatchBoundary() {
 
   return (
     <Document title={`${caught.status} ${caught.statusText}`}>
-      <Layout>
+      <>
         <h1>
           {caught.status}: {caught.statusText}
         </h1>
         {message}
-      </Layout>
+      </>
     </Document>
   )
 }
@@ -103,8 +102,4 @@ function Document({
       </body>
     </html>
   )
-}
-
-function Layout({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>
 }

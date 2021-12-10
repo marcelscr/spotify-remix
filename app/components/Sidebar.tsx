@@ -6,10 +6,11 @@ import {
   HeartIcon,
   RssIcon
 } from '@heroicons/react/outline'
-import { Form } from 'remix'
+import { Link, Form } from 'remix'
 import _ from 'lodash'
+import { useRecoilValue } from 'recoil'
 
-import type { Playlist } from '~/types'
+import { playlistsState } from '~/atoms/playlists'
 
 const items = {
   home: {
@@ -47,11 +48,9 @@ const SidebarButton = ({ item }: SidebarButtonProps) => (
 
 const SidebarDivider = () => <hr className="border-t-[0.1px] border-gray-900" />
 
-type Props = {
-  playlists: Playlist[]
-}
+const Sidebar = () => {
+  const playlists = useRecoilValue(playlistsState)
 
-const Sidebar = ({ playlists }: Props) => {
   return (
     <div className="text-gray-500 p-5 text-sm border-gray-900 border-r overflow-y-scroll scrollbar-hide h-screen pr-16">
       <div className="space-y-4">
@@ -69,8 +68,12 @@ const Sidebar = ({ playlists }: Props) => {
 
         {_.map(playlists, playlist => {
           return (
-            <p key={playlist.id} className="cursor-pointer hover:text-white">
-              {playlist.name}
+            <p key={playlist.id}>
+              <Link
+                to={`/playlists/${playlist.id}`}
+                className="cursor-pointer hover:text-white">
+                {playlist.name}
+              </Link>
             </p>
           )
         })}

@@ -20,4 +20,6 @@ export interface AuthResponse {
 }
 
 // Playlist
-export type Playlist = SpotifyApi.PlaylistObjectSimplified
+export type SimplifiedPlaylist = SpotifyApi.PlaylistObjectSimplified
+export type FullPlaylist = SpotifyApi.PlaylistObjectFull
+export type PlaylistTrack = SpotifyApi.PlaylistTrackObject
