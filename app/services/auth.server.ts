@@ -1,7 +1,7 @@
 import { Authenticator } from 'remix-auth'
 import type { AuthResponse } from '~/types'
 import { sessionStorage } from '~/services/session.server'
-import { SpotifyStrategy } from './spotify'
+import { SpotifyStrategy } from './spotifyStrategy'
 
 export const authenticator = new Authenticator<AuthResponse>(sessionStorage)
 
