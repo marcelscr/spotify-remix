@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react'
-import { sample } from 'lodash'
 import { useRecoilValue } from 'recoil'
 import { useTransition } from 'remix'
 
 import { playlistsState } from '~/atoms/playlists'
 import Loading from '~/components/Loading'
 import Playlists from '~/components/Playlists'
+import PlaylistHeader from '~/components/PlaylistHeader'
 
 const colors = [
   'from-indigo-500',
@@ -19,30 +18,16 @@ const colors = [
 
 function Playlist() {
   const playlists = useRecoilValue(playlistsState)
-  const [color, setColor] = useState('')
   const transition = useTransition()
   const loading = transition.state === 'loading'
 
-  useEffect(() => {
-    setColor(sample(colors) ?? colors[0])
-  }, [playlists])
-
   return (
     <>
-      <section
-        className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-60 text-white p-8 `}>
-        <>
-          <img
-            className="w-44 h-44 shadow-2xl rounded-lg"
-            src={playlists[0]?.images[0]?.url}
-            alt="playlist image"
-          />
-          <div>
-            <h1 className="text-2xl md:text-3xl xl:text-5lx font-bold">
-              Playlists
-            </h1>
-          </div>
-        </>
+      <section>
+        <PlaylistHeader
+          title="Playlists"
+          imageUrl={playlists[0]?.images[0]?.url}
+        />
       </section>
       <section>
         {loading ? (
