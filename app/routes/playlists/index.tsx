@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react'
 import { sample } from 'lodash'
 import { useRecoilValue } from 'recoil'
 import _ from 'lodash'
-import { Link, useTransition } from 'remix'
+import { useTransition } from 'remix'
 
 import { playlistsState } from '~/atoms/playlists'
 import Loading from '~/components/Loading'
-import PlaylistItem from '~/components/PlaylistItem'
+import Playlists from '~/components/Playlists'
 
 const colors = [
   'from-indigo-500',
@@ -35,36 +35,24 @@ function Playlist() {
         <>
           <img
             className="w-44 h-44 shadow-2xl rounded-lg"
-            src={playlists[0]?.images[0]?.url}
+            src={_.sample(playlists)?.images[0]?.url}
             alt="playlist image"
           />
           <div>
             <h1 className="text-2xl md:text-3xl xl:text-5lx font-bold">
-              SELECT A PLAYLIST
+              Playlists
             </h1>
           </div>
         </>
       </section>
       <section>
-        <div className="text-gray-500 p-8 space-y-4">
-          {loading ? (
-            <div className="flex justify-center mt-36">
-              <Loading />
-            </div>
-          ) : (
-            _.map(playlists, (playlist, i) => {
-              return (
-                <p key={playlist.id}>
-                  <Link
-                    to={`/playlists/${playlist.id}`}
-                    className="cursor-pointer hover:text-white">
-                    <PlaylistItem playlist={playlist} order={i} />
-                  </Link>
-                </p>
-              )
-            })
-          )}
-        </div>
+        {loading ? (
+          <div className="flex justify-center mt-36">
+            <Loading />
+          </div>
+        ) : (
+          <Playlists playlists={playlists} />
+        )}
       </section>
     </>
   )
