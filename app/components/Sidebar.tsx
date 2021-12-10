@@ -8,8 +8,9 @@ import {
 } from '@heroicons/react/outline'
 import { Form, Link } from 'remix'
 import _ from 'lodash'
+import { useRecoilValue } from 'recoil'
 
-import type { SimplifiedPlaylist } from '~/types'
+import { playlistsState } from '~/atoms/playlists'
 
 const items = {
   home: {
@@ -47,11 +48,9 @@ const SidebarButton = ({ item }: SidebarButtonProps) => (
 
 const SidebarDivider = () => <hr className="border-t-[0.1px] border-gray-900" />
 
-type Props = {
-  playlists: SimplifiedPlaylist[]
-}
+const Sidebar = () => {
+  const playlists = useRecoilValue(playlistsState)
 
-const Sidebar = ({ playlists }: Props) => {
   return (
     <div className="text-gray-500 p-5 text-sm border-gray-900 border-r overflow-y-scroll scrollbar-hide h-screen pr-16">
       <div className="space-y-4">
@@ -69,9 +68,8 @@ const Sidebar = ({ playlists }: Props) => {
 
         {_.map(playlists, playlist => {
           return (
-            <p>
+            <p key={playlist.id}>
               <Link
-                key={playlist.id}
                 to={`/playlists/${playlist.id}`}
                 className="cursor-pointer hover:text-white">
                 {playlist.name}

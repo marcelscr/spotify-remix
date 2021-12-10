@@ -9,7 +9,10 @@ import {
 } from 'remix'
 import type { LinksFunction } from 'remix'
 
+import Layout from '~/components/Layout'
+
 import tailwindUrl from './styles/tailwind.css'
+import { RecoilRoot } from 'recoil'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: tailwindUrl }]
@@ -17,11 +20,13 @@ export const links: LinksFunction = () => {
 
 export default function App() {
   return (
-    <Document>
-      <Layout>
-        <Outlet />
-      </Layout>
-    </Document>
+    <RecoilRoot>
+      <Document>
+        <Layout>
+          <Outlet />
+        </Layout>
+      </Document>
+    </RecoilRoot>
   )
 }
 
@@ -70,10 +75,12 @@ export function CatchBoundary() {
   return (
     <Document title={`${caught.status} ${caught.statusText}`}>
       <Layout>
-        <h1>
-          {caught.status}: {caught.statusText}
-        </h1>
-        {message}
+        <>
+          <h1>
+            {caught.status}: {caught.statusText}
+          </h1>
+          {message}
+        </>
       </Layout>
     </Document>
   )
@@ -103,8 +110,4 @@ function Document({
       </body>
     </html>
   )
-}
-
-function Layout({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>
 }

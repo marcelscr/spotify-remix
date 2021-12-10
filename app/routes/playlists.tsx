@@ -1,13 +1,16 @@
+import { useRecoilState } from 'recoil'
 import type { MetaFunction, LoaderFunction } from 'remix'
 import { useLoaderData, Outlet } from 'remix'
+import { playlistsState } from '~/atoms/playlists'
+import { useEffect } from 'react'
 
-import Sidebar from '~/components/Sidebar'
 import spotifyApi from '~/lib/spotify'
 import { authenticator } from '~/services/auth.server'
-import type { SimplifiedPlaylist } from '~/types'
+import type { SimplifiedPlaylist, User } from '~/types'
+import { userState } from '~/atoms/user'
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const { tokens } = await authenticator.isAuthenticated(request, {
+  const { user, tokens } = await authenticator.isAuthenticated(request, {
     failureRedirect: '/login'
   })
 
@@ -21,8 +24,11 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   const playlists = [...userPlaylists, ...featuredPlaylists]
 
+  console.log('fetching playlists')
+
   return {
-    playlists
+    playlists,
+    user
   }
 }
 
@@ -34,16 +40,16 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const data = useLoaderData<{
+    user: User
     playlists: SimplifiedPlaylist[]
   }>()
+  const [_, setPlaylists] = useRecoilState(playlistsState)
+  const [__, setUser] = useRecoilState(userState)
 
-  return (
-    <div className="bg-black h-screen">
-      <main className="flex">
-        <Sidebar playlists={data.playlists} />
-        <Outlet />
-      </main>
-      <div>{/* Player */}</div>
-    </div>
-  )
+  useEffect(() => {
+    setPlaylists(data.playlists)
+    setUser(data.user)
+  }, [data])
+
+  return <Outlet />
 }

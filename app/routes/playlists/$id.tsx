@@ -1,10 +1,13 @@
 import type { MetaFunction, LoaderFunction } from 'remix'
-import { useLoaderData } from 'remix'
+import { useLoaderData, useTransition } from 'remix'
 import invariant from 'tiny-invariant'
-import Center from '~/components/Center'
+import { useState, useEffect } from 'react'
+import { sample } from 'lodash'
+
 import spotifyApi from '~/lib/spotify'
 import { authenticator } from '~/services/auth.server'
 import type { User, FullPlaylist } from '~/types'
+import Loading from '~/components/Loading'
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const { user, tokens } = await authenticator.isAuthenticated(request, {
@@ -30,15 +33,64 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
 export const meta: MetaFunction = () => {
   return {
-    title: 'Playlists - Remix'
+    title: 'Playlist - Remix'
   }
 }
 
-export default function Index() {
+const colors = [
+  'from-indigo-500',
+  'from-blue-500',
+  'from-green-500',
+  'from-red-500',
+  'from-yellow-500',
+  'from-pink-500',
+  'from-purple-500'
+]
+
+function Playlist() {
   const data = useLoaderData<{
     user: User
-    playlist: FullPlaylist
+    playlist?: FullPlaylist
   }>()
+  const [color, setColor] = useState('')
+  const transition = useTransition()
+  const loading = transition.state === 'loading'
 
-  return <Center user={data.user} playlist={data.playlist} />
+  useEffect(() => {
+    setColor(sample(colors) ?? colors[0])
+  }, [data.playlist])
+
+  const playlistNotFoundComponent = <h1>Playlist not found</h1>
+  const playlistComponent = (
+    <>
+      <img
+        className="w-44 h-44 shadow-2xl"
+        src={data.playlist?.images[0]?.url}
+        alt="playlist image"
+      />
+      <div>
+        <p>PLAYLIST</p>
+        <h1 className="text-2xl md:text-3xl xl:text-5lx font-bold">
+          {data.playlist?.name}
+        </h1>
+      </div>
+    </>
+  )
+
+  return (
+    <div className="flex-grow">
+      <section
+        className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-60 text-white p-8 `}>
+        {loading ? (
+          <Loading />
+        ) : data.playlist ? (
+          playlistComponent
+        ) : (
+          playlistNotFoundComponent
+        )}
+      </section>
+    </div>
+  )
 }
+
+export default Playlist
