@@ -3,7 +3,7 @@ import Loader from 'react-loader-spinner'
 const Loading = () => {
   return (
     <Loader
-      type="ThreeDots"
+      type="TailSpin"
       color="#555555"
       height={50}
       width={50}
