@@ -61,15 +61,8 @@ function Playlist() {
     setColor(sample(colors) ?? colors[0])
   }, [data.playlist])
 
-  if (loading)
-    return (
-      <div className="flex flex-col items-center justify-center text-white">
-        <Loading />
-      </div>
-    )
-
   return (
-    <div className="flex-grow h-screen overflow-y-scroll hide-scroll">
+    <>
       <section
         className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-60 text-white p-8 `}>
         <img
@@ -84,12 +77,18 @@ function Playlist() {
           </h1>
         </div>
       </section>
-      {data.playlist && (
-        <section className="text-white p-8">
-          <Songs playlist={data.playlist} />
-        </section>
+      {loading ? (
+        <div className="flex flex-col items-center justify-center text-gray-500">
+          <Loading />
+        </div>
+      ) : (
+        data.playlist && (
+          <section className="text-white p-8">
+            <Songs playlist={data.playlist} />
+          </section>
+        )
       )}
-    </div>
+    </>
   )
 }
 

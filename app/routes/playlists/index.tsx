@@ -29,7 +29,7 @@ function Playlist() {
   }, [playlists])
 
   return (
-    <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
+    <>
       <section
         className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-60 text-white p-8 `}>
         <>
@@ -64,7 +64,7 @@ function Playlist() {
           )}
         </div>
       </section>
-    </div>
+    </>
   )
 }
 

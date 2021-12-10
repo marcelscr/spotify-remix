@@ -607,6 +607,10 @@ video {
   position: absolute;
 }
 
+.relative {
+  position: relative;
+}
+
 .top-5 {
   top: 1.25rem;
 }
@@ -901,6 +905,11 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+
+.text-gray-900 {
+  --tw-text-opacity: 1;
+  color: rgba(17, 24, 39, var(--tw-text-opacity));
 }
 
 .opacity-90 {

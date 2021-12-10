@@ -11,8 +11,10 @@ function Layout({ children }: Props) {
       <main className="flex">
         <Sidebar />
         <div className="flex-grow">
-          <LayoutHeader />
-          {children}
+          <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
+            <LayoutHeader />
+            {children}
+          </div>
         </div>
       </main>
       <div>{/* Player */}</div>
