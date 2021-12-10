@@ -8,6 +8,7 @@ import spotifyApi from '~/lib/spotify'
 import { authenticator } from '~/services/auth.server'
 import type { SimplifiedPlaylist, User } from '~/types'
 import { userState } from '~/atoms/user'
+import Layout from '~/components/Layout'
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const { user, tokens } = await authenticator.isAuthenticated(request, {
@@ -24,7 +25,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
   const playlists = [...userPlaylists, ...featuredPlaylists]
 
-  console.log('fetching playlists')
+  console.log(params)
 
   return {
     playlists,
@@ -51,5 +52,9 @@ export default function Index() {
     setUser(data.user)
   }, [data])
 
-  return <Outlet />
+  return (
+    <Layout>
+      <Outlet />
+    </Layout>
+  )
 }
