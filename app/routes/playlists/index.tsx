@@ -34,7 +34,7 @@ function Playlist() {
         className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-60 text-white p-8 `}>
         <>
           <img
-            className="w-44 h-44 shadow-2xl"
+            className="w-44 h-44 shadow-2xl rounded-lg"
             src={playlists[0]?.images[0]?.url}
             alt="playlist image"
           />

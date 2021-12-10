@@ -29,7 +29,7 @@ authenticator.use(
         user: {
           id: profile.id,
           email: profile.email,
-          name: profile.displayName,
+          name: profile.display_name,
           image: profile.images?.[0]?.url
         },
         tokens: {
