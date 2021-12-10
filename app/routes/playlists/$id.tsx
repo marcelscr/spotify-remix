@@ -77,17 +77,15 @@ function Playlist() {
           </h1>
         </div>
       </section>
-      {loading ? (
-        <div className="flex justify-center mt-36">
-          <Loading />
-        </div>
-      ) : (
-        data.playlist && (
-          <section className="text-white p-8">
-            <Songs playlist={data.playlist} />
-          </section>
-        )
-      )}
+      <section>
+        {loading ? (
+          <div className="flex justify-center mt-36">
+            <Loading />
+          </div>
+        ) : (
+          data.playlist && <Songs playlist={data.playlist} />
+        )}
+      </section>
     </>
   )
 }

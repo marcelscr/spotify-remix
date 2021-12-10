@@ -9,7 +9,7 @@ function Songs({ playlist }: Props) {
   if (!playlist) return null
 
   return (
-    <div className="px-8 flex flex-col space-y-1 text-white pb-28">
+    <div className="px-8 flex flex-col space-y-1 pb-28">
       {playlist.tracks.items.map((track, i) => (
         <Song key={track.track.id} track={track} order={i} />
       ))}
