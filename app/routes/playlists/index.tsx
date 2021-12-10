@@ -6,6 +6,7 @@ import { Link, useTransition } from 'remix'
 
 import { playlistsState } from '~/atoms/playlists'
 import Loading from '~/components/Loading'
+import PlaylistItem from '~/components/PlaylistItem'
 
 const colors = [
   'from-indigo-500',
@@ -28,7 +29,7 @@ function Playlist() {
   }, [playlists])
 
   return (
-    <div className="flex-grow">
+    <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
       <section
         className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-60 text-white p-8 `}>
         <>
@@ -49,13 +50,13 @@ function Playlist() {
           {loading ? (
             <Loading />
           ) : (
-            _.map(playlists, playlist => {
+            _.map(playlists, (playlist, i) => {
               return (
                 <p key={playlist.id}>
                   <Link
                     to={`/playlists/${playlist.id}`}
                     className="cursor-pointer hover:text-white">
-                    {playlist.name}
+                    <PlaylistItem playlist={playlist} order={i} />
                   </Link>
                 </p>
               )
