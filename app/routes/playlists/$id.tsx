@@ -78,7 +78,7 @@ function Playlist() {
         </div>
       </section>
       {loading ? (
-        <div className="flex flex-col items-center justify-center text-gray-500">
+        <div className="flex justify-center mt-36">
           <Loading />
         </div>
       ) : (

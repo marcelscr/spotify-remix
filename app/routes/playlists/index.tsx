@@ -48,7 +48,9 @@ function Playlist() {
       <section>
         <div className="text-gray-500 p-8 space-y-4">
           {loading ? (
-            <Loading />
+            <div className="flex justify-center mt-36">
+              <Loading />
+            </div>
           ) : (
             _.map(playlists, (playlist, i) => {
               return (

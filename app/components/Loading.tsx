@@ -1,5 +1,15 @@
+import Loader from 'react-loader-spinner'
+
 const Loading = () => {
-  return <div>Loading...</div>
+  return (
+    <Loader
+      type="ThreeDots"
+      color="#555555"
+      height={50}
+      width={50}
+      timeout={3000}
+    />
+  )
 }
 
 export default Loading
