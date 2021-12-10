@@ -8,6 +8,7 @@ import spotifyApi from '~/lib/spotify'
 import { authenticator } from '~/services/auth.server'
 import type { User, FullPlaylist } from '~/types'
 import Loading from '~/components/Loading'
+import Songs from '~/components/Songs'
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const { user, tokens } = await authenticator.isAuthenticated(request, {
@@ -60,35 +61,34 @@ function Playlist() {
     setColor(sample(colors) ?? colors[0])
   }, [data.playlist])
 
-  const playlistNotFoundComponent = <h1>Playlist not found</h1>
-  const playlistComponent = (
-    <>
-      <img
-        className="w-44 h-44 shadow-2xl"
-        src={data.playlist?.images[0]?.url}
-        alt="playlist image"
-      />
-      <div>
-        <p>PLAYLIST</p>
-        <h1 className="text-2xl md:text-3xl xl:text-5lx font-bold">
-          {data.playlist?.name}
-        </h1>
+  if (loading)
+    return (
+      <div className="flex flex-col items-center justify-center text-white">
+        <Loading />
       </div>
-    </>
-  )
+    )
 
   return (
-    <div className="flex-grow">
+    <div className="flex-grow h-screen overflow-y-scroll hide-scroll">
       <section
         className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-60 text-white p-8 `}>
-        {loading ? (
-          <Loading />
-        ) : data.playlist ? (
-          playlistComponent
-        ) : (
-          playlistNotFoundComponent
-        )}
+        <img
+          className="w-44 h-44 shadow-2xl"
+          src={data.playlist?.images[0]?.url}
+          alt="playlist image"
+        />
+        <div>
+          <p>PLAYLIST</p>
+          <h1 className="text-2xl md:text-3xl xl:text-5lx font-bold">
+            {data.playlist?.name}
+          </h1>
+        </div>
       </section>
+      {data.playlist && (
+        <section className="text-white p-8">
+          <Songs playlist={data.playlist} />
+        </section>
+      )}
     </div>
   )
 }

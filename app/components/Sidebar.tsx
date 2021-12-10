@@ -6,7 +6,7 @@ import {
   HeartIcon,
   RssIcon
 } from '@heroicons/react/outline'
-import { Form, Link } from 'remix'
+import { Link } from 'remix'
 import _ from 'lodash'
 import { useRecoilValue } from 'recoil'
 
@@ -54,9 +54,6 @@ const Sidebar = () => {
   return (
     <div className="text-gray-500 p-5 text-sm border-gray-900 border-r overflow-y-scroll scrollbar-hide h-screen pr-16">
       <div className="space-y-4">
-        <Form action="/logout" method="post">
-          <button className="cursor-pointer hover:text-white">Logout</button>
-        </Form>
         <SidebarButton item={items.home} />
         <SidebarButton item={items.search} />
         <SidebarButton item={items.library} />

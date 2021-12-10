@@ -18,6 +18,9 @@ function LayoutHeader() {
         <h2>{user.name ?? user.id}</h2>
         <ChevronDownIcon className="w-5 h-5" />
       </div>
+      {/* <Form action="/logout" method="post">
+        <button className="cursor-pointer hover:text-white">Logout</button>
+      </Form> */}
     </header>
   )
 }
