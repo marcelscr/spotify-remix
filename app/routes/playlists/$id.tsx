@@ -4,7 +4,7 @@ import invariant from 'tiny-invariant'
 import { useState, useEffect } from 'react'
 import { sample } from 'lodash'
 
-import spotifyApi from '~/lib/spotify'
+import { getPlaylist } from '~/lib/request'
 import { authenticator } from '~/services/auth.server'
 import type { User, FullPlaylist } from '~/types'
 import Loading from '~/components/Loading'
@@ -16,15 +16,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   })
   invariant(params.id, 'expected params.id')
 
-  const api = await spotifyApi(request, tokens)
-
-  let playlist
-  try {
-    playlist = await api.getPlaylist(params.id).then(data => data.body)
-  } catch (error) {
-    console.error(error)
-    throw new Response('Not Found', { status: 404 })
-  }
+  const playlist = await getPlaylist(request, tokens, params.id)
 
   return {
     user,

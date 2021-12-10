@@ -42,7 +42,6 @@ async function spotifyApi(request: Request, tokens: AuthTokens) {
     accessToken: tokens.accessToken,
     refreshToken: tokens.refreshToken
   })
-
   const session = await getSession(request)
 
   if (!hasValidAccessToken(session)) {

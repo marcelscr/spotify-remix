@@ -12,7 +12,7 @@ function Song({ track, order }: Props) {
       <div className="flex items-center space-x-4">
         <p>{order + 1}</p>
         <img
-          className="w-10 h-10"
+          className="w-10 h-10 rounded-sm"
           src={track.track.album.images[0].url}
           alt="song album image"
         />

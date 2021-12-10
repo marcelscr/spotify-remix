@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { sample } from 'lodash'
 import { useRecoilValue } from 'recoil'
-import _ from 'lodash'
 import { useTransition } from 'remix'
 
 import { playlistsState } from '~/atoms/playlists'
@@ -35,7 +34,7 @@ function Playlist() {
         <>
           <img
             className="w-44 h-44 shadow-2xl rounded-lg"
-            src={_.sample(playlists)?.images[0]?.url}
+            src={playlists[0]?.images[0]?.url}
             alt="playlist image"
           />
           <div>

@@ -1,31 +1,23 @@
 import { useRecoilState } from 'recoil'
 import type { MetaFunction, LoaderFunction } from 'remix'
 import { useLoaderData, Outlet } from 'remix'
-import { playlistsState } from '~/atoms/playlists'
 import { useEffect } from 'react'
 
-import spotifyApi from '~/lib/spotify'
 import { authenticator } from '~/services/auth.server'
 import type { SimplifiedPlaylist, User } from '~/types'
 import { userState } from '~/atoms/user'
+import { playlistsState } from '~/atoms/playlists'
 import Layout from '~/components/Layout'
+import { getUserPlaylists, getFeaturedPlaylists } from '~/lib/request'
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const { user, tokens } = await authenticator.isAuthenticated(request, {
     failureRedirect: '/login'
   })
 
-  const api = await spotifyApi(request, tokens)
-  const userPlaylists = await api
-    .getUserPlaylists()
-    .then(data => data.body.items)
-  const featuredPlaylists = await api
-    .getFeaturedPlaylists()
-    .then(data => data.body.playlists.items)
-
+  const userPlaylists = await getUserPlaylists(request, tokens)
+  const featuredPlaylists = await getFeaturedPlaylists(request, tokens)
   const playlists = [...userPlaylists, ...featuredPlaylists]
-
-  console.log(params)
 
   return {
     playlists,
