@@ -1,45 +1,92 @@
 import {
+  json,
   Links,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch
+  useCatch,
+  useLoaderData,
+  useLocation
 } from 'remix'
-import type { LinksFunction } from 'remix'
-
-import tailwindUrl from './styles/tailwind.css'
+import type { LinksFunction, LoaderFunction } from 'remix'
 import { RecoilRoot } from 'recoil'
+
+import { getEnv } from './utils/env.server'
+import tailwindUrl from './styles/tailwind.css'
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: tailwindUrl }]
 }
 
-export default function App() {
+export type LoaderData = {
+  ENV: ReturnType<typeof getEnv>
+}
+
+export const loader: LoaderFunction = async () => {
+  const data: LoaderData = {
+    ENV: getEnv()
+  }
+  return json(data)
+}
+
+export function App() {
+  const data = useLoaderData<LoaderData>()
+
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <Outlet />
+        <ScrollRestoration />
+        <Scripts />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(data.ENV)};`
+          }}
+        />
+        {process.env.NODE_ENV === 'development' && <LiveReload />}
+      </body>
+    </html>
+  )
+}
+
+export default function AppWithProviders() {
   return (
     <RecoilRoot>
-      <Document>
-        <Outlet />
-      </Document>
+      <App />
     </RecoilRoot>
   )
 }
 
 export function ErrorBoundary({ error }: { error: Error }) {
   console.error(error)
+  const location = useLocation()
+
   return (
-    <Document title="Error!">
-      <div>
-        <h1>There was an error</h1>
-        <p>{error.message}</p>
-        <hr />
-        <p>
-          Hey, developer, you should replace this with what you want your users
-          to see.
-        </p>
-      </div>
-    </Document>
+    <html lang="en" className="dark">
+      <head>
+        <title>Oh no...</title>
+        <Links />
+      </head>
+      <body className="dark:bg-gray-900 bg-white transition duration-500">
+        <div>
+          <h1>There was an error</h1>
+          <p>{error.message}</p>
+          <hr />
+          <p>
+            <h1>{location.pathname} is currently not working. So sorry.</h1>
+          </p>
+        </div>
+        <Scripts />
+      </body>
+    </html>
   )
 }
 
@@ -67,38 +114,19 @@ export function CatchBoundary() {
   }
 
   return (
-    <Document title={`${caught.status} ${caught.statusText}`}>
-      <>
-        <h1>
-          {caught.status}: {caught.statusText}
-        </h1>
-        {message}
-      </>
-    </Document>
-  )
-}
-
-function Document({
-  children,
-  title
-}: {
-  children: React.ReactNode
-  title?: string
-}) {
-  return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        {title ? <title>{title}</title> : null}
-        <Meta />
+        <title>Oh no...</title>
         <Links />
       </head>
-      <body>
-        {children}
-        <ScrollRestoration />
+      <body className="dark:bg-gray-900 bg-white transition duration-500">
+        <div>
+          <h1>
+            {caught.status}: {caught.statusText}
+          </h1>
+          {message}
+        </div>
         <Scripts />
-        {process.env.NODE_ENV === 'development' && <LiveReload />}
       </body>
     </html>
   )
