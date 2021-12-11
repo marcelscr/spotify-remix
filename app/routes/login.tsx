@@ -1,4 +1,5 @@
 import type { MetaFunction } from 'remix'
+import { useState } from 'react'
 
 export const meta: MetaFunction = () => {
   return {
@@ -7,12 +8,16 @@ export const meta: MetaFunction = () => {
 }
 
 export default function Login() {
+  const [loggingIn, setLoggingIn] = useState(false)
+
   return (
     <div className="flex flex-col items-center bg-black min-h-screen w-full justify-center">
       <SpotifyLogo />
       <form action="/auth/spotify" method="post">
-        <button className="bg-[#18D860] p-5 rounded-full font-semibold">
-          Login with Spotify
+        <button
+          className="bg-[#18D860] p-5 rounded-full font-semibold"
+          onClick={() => setLoggingIn(true)}>
+          {loggingIn ? 'Logging in...' : 'Login with Spotify'}
         </button>
       </form>
     </div>
