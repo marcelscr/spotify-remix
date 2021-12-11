@@ -1,30 +1,25 @@
 import { AuthTokens, FullPlaylist, SimplifiedPlaylist } from '~/types'
-import spotifyApi from '~/lib/spotify'
+import spotifyApi from '~/lib/spotify.server'
+import SpotifyWebApi from 'spotify-web-api-node'
 
 export async function getUserPlaylists(
-  request: Request,
-  tokens: AuthTokens
+  api: SpotifyWebApi
 ): Promise<SimplifiedPlaylist[]> {
-  const api = await spotifyApi(request, tokens)
   return await api.getUserPlaylists().then(data => data.body.items)
 }
 
 export async function getFeaturedPlaylists(
-  request: Request,
-  tokens: AuthTokens
+  api: SpotifyWebApi
 ): Promise<SimplifiedPlaylist[]> {
-  const api = await spotifyApi(request, tokens)
   return await api
     .getFeaturedPlaylists()
     .then(data => data.body.playlists.items)
 }
 
 export async function getPlaylist(
-  request: Request,
-  tokens: AuthTokens,
+  api: SpotifyWebApi,
   id: string
 ): Promise<FullPlaylist> {
-  const api = await spotifyApi(request, tokens)
   try {
     return await api.getPlaylist(id).then(data => data.body)
   } catch (error) {

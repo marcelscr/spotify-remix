@@ -9,9 +9,8 @@ import type { User, FullPlaylist, PlaylistTrack } from '~/types'
 import Loading from '~/components/Loading'
 import Songs from '~/components/Songs'
 import PlaylistHeader from '~/components/PlaylistHeader'
-
+import spotifyApi from '~/lib/spotify.server'
 import { currentTrackIdState, isPlayingState } from '~/atoms/songs'
-import spotifyApi from '~/lib/spotify'
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const { user, tokens } = await authenticator.isAuthenticated(request, {
@@ -19,7 +18,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   })
   invariant(params.id, 'expected params.id')
 
-  const playlist = await getPlaylist(request, tokens, params.id)
+  const api = await spotifyApi(request, tokens)
+  const playlist = await getPlaylist(api, params.id)
 
   return {
     user,
