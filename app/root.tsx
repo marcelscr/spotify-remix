@@ -80,9 +80,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
           <h1>There was an error</h1>
           <p>{error.message}</p>
           <hr />
-          <p>
-            <h1>{location.pathname} is currently not working. So sorry.</h1>
-          </p>
+          <p>{location.pathname} is currently not working. So sorry.</p>
         </div>
         <Scripts />
       </body>
@@ -92,7 +90,6 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
 export function CatchBoundary() {
   const caught = useCatch()
-
   let message
   switch (caught.status) {
     case 401:
