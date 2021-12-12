@@ -14,8 +14,10 @@ const useSongInfo = () => {
   useEffect(() => {
     const fetchSongInfo = async () => {
       if (currentTrackId) {
-        const api = await SpotifyClientApi.get()
-        const trackInfo = await getTrack(api, currentTrackId)
+        const trackInfo = await SpotifyClientApi.get()
+          .getTrack(currentTrackId)
+          .then(data => data.body)
+
         setSongInfo(trackInfo)
       }
     }

@@ -16,9 +16,9 @@ export interface Error {
 // Auth
 export interface AuthTokens {
   accessToken: string
-  refreshToken: string
-  expiresIn?: number
-  tokenType: string
+  refreshToken?: string
+  expiresAt: number
+  tokenType?: string
 }
 
 export interface AuthResponse {

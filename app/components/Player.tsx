@@ -12,7 +12,7 @@ const Player = () => {
 
   const songInfo = useSongInfo()
 
-  console.log({ songInfo })
+  console.log(songInfo)
   return (
     <div>
       {/*Left */}

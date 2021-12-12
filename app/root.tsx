@@ -56,7 +56,7 @@ export function App() {
   const [_, setUser] = useRecoilState(userState)
 
   useEffect(() => {
-    console.log('Saving User to state.')
+    console.log('Changing data. Calling useEffect on root.tsx.')
     setUser(data.user)
     SpotifyClientApi.init(
       data.ENV.SPOTIFY_CLIENT_ID,

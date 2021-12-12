@@ -94,13 +94,13 @@ function Playlist() {
   const loading =
     transition.state === 'loading' && transition.type !== 'actionReload'
 
-  console.log({ currentTrackId, isPlaying })
   useEffect(() => {
     if (actionData) {
       const { trackId, isPlaying, error } = actionData
       if (error) {
         toast.error(error.message)
       } else {
+        console.log('Selected a track. Playing song.')
         setCurrentTrackId(trackId)
         setIsPlaying(isPlaying)
       }

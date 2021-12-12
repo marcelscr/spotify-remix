@@ -2,57 +2,37 @@ import SpotifyWebApi from 'spotify-web-api-node'
 import { AuthTokens } from '~/types'
 
 class SpotifyClientApi {
-  private client?: SpotifyWebApi
-  private expiresAt?: number
+  private client: SpotifyWebApi
 
   constructor() {
-    this.expiresAt = 0
+    this.client = new SpotifyWebApi()
   }
 
-  public init(clientId: string, clientSecret: string, tokens: AuthTokens) {
-    if (this.client) return
-
-    this.client = new SpotifyWebApi({
+  init(clientId: string, clientSecret: string, tokens: AuthTokens) {
+    this.client.setCredentials({
       clientId,
       clientSecret,
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken
     })
-    this.expiresAt = tokens.expiresAt
   }
 
-  hasValidAccessToken() {
-    if (!this.client) false
-    return this.expiresAt && Date.now() < this.expiresAt
-  }
+  // async refreshAccessToken() {
+  //   try {
+  //     console.log('Refreshing the token')
+  //     // const response = await this.client.refreshAccessToken()
 
-  private async refreshAccessToken() {
-    if (!this.client) throw new Error('The Spotify API is not initialized.')
+  //     // // Update the API
+  //     // this.client.setAccessToken(response.body.access_token)
+  //     // this.client.setRefreshToken(response.body.refresh_token ?? '')
+  //   } catch (error) {
+  //     console.error(error)
+  //     throw error
+  //   }
+  // }
 
-    try {
-      const response = await this.client.refreshAccessToken()
-
-      const accessToken = response.body.access_token
-      const refreshToken = response.body.refresh_token
-      const expiresAt = Date.now() + response.body.expires_in * 1000
-
-      // Update the API
-      this.client.setAccessToken(accessToken)
-      this.client.setRefreshToken(refreshToken ?? '')
-      this.expiresAt = expiresAt
-    } catch (error) {
-      console.error(error)
-      throw error
-    }
-  }
-
-  async get() {
-    if (!this.client) throw new Error('The Spotify API is not initialized.')
-
-    if (!this.hasValidAccessToken()) {
-      await this.refreshAccessToken()
-    }
-
+  get() {
+    // await this.refreshAccessToken()
     return this.client
   }
 }
