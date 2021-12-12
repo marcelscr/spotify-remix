@@ -1,20 +1,23 @@
-import { useEffect, useState } from 'react'
-import { useRecoilValue } from 'recoil'
+import { useEffect } from 'react'
+import { useRecoilValue, useRecoilState } from 'recoil'
 
-import { SingleTrack } from '~/types'
-import { currentTrackIdState, isPlayingState } from '~/atoms/songs'
+import {
+  currentTrackIdState,
+  isPlayingState,
+  currentSongInfoState
+} from '~/atoms/songs'
 import SpotifyClientApi from '~/lib/spotify.client'
-import { getTrack } from '~/lib/request'
 
 const useSongInfo = () => {
   const currentTrackId = useRecoilValue(currentTrackIdState)
   const isPlaying = useRecoilValue(isPlayingState)
-  const [songInfo, setSongInfo] = useState<SingleTrack | null>(null)
+  const [songInfo, setSongInfo] = useRecoilState(currentSongInfoState)
 
   useEffect(() => {
     const fetchSongInfo = async () => {
       if (currentTrackId) {
-        const trackInfo = await SpotifyClientApi.get()
+        const api = await SpotifyClientApi.get()
+        const trackInfo = await api
           .getTrack(currentTrackId)
           .then(data => data.body)
 

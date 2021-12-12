@@ -17,22 +17,26 @@ class SpotifyClientApi {
     })
   }
 
-  // async refreshAccessToken() {
-  //   try {
-  //     console.log('Refreshing the token')
-  //     // const response = await this.client.refreshAccessToken()
+  async refreshAccessToken() {
+    try {
+      console.log('Refreshing the token')
+      const response = await this.client.refreshAccessToken()
 
-  //     // // Update the API
-  //     // this.client.setAccessToken(response.body.access_token)
-  //     // this.client.setRefreshToken(response.body.refresh_token ?? '')
-  //   } catch (error) {
-  //     console.error(error)
-  //     throw error
-  //   }
-  // }
+      // Update the API
+      this.client.setAccessToken(response.body.access_token)
+      this.client.setRefreshToken(response.body.refresh_token ?? '')
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
 
-  get() {
-    // await this.refreshAccessToken()
+  async get() {
+    if (!this.client.getAccessToken()) {
+      await this.client.getAccessToken()
+    }
+
+    console.log('Getting the client', this.client)
     return this.client
   }
 }

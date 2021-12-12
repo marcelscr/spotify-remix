@@ -23,6 +23,7 @@ import SpotifyClientApi from '~/lib/spotify.client'
 import { getEnv } from './utils/env.server'
 import tailwindUrl from './styles/tailwind.css'
 import toastifyUrl from 'react-toastify/dist/ReactToastify.min.css'
+import { spotifyCredentialsState } from './atoms/credentials'
 
 export const links: LinksFunction = () => {
   return [
@@ -54,10 +55,15 @@ export const loader: LoaderFunction = async ({ request }) => {
 export function App() {
   const data = useLoaderData<LoaderData>()
   const [_, setUser] = useRecoilState(userState)
+  const [__, setSpotifyCredentialsState] = useRecoilState(
+    spotifyCredentialsState
+  )
 
   useEffect(() => {
     console.log('Changing data. Calling useEffect on root.tsx.')
     setUser(data.user)
+    setSpotifyCredentialsState(data.tokens)
+
     SpotifyClientApi.init(
       data.ENV.SPOTIFY_CLIENT_ID,
       data.ENV.SPOTIFY_CLIENT_SECRET,
