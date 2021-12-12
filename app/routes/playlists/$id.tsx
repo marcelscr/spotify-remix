@@ -77,14 +77,14 @@ function Playlist() {
   }>()
   const actionData =
     useActionData<{ trackId: string; isPlaying: boolean; error: string }>()
-
   const transition = useTransition()
-  const loading = transition.state === 'loading'
-
   const submit = useSubmit()
   const [currentTrackId, setCurrentTrackId] =
     useRecoilState(currentTrackIdState)
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState)
+
+  const loading =
+    transition.state === 'loading' && transition.type !== 'actionReload'
 
   useEffect(() => {
     if (actionData) {
