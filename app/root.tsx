@@ -13,11 +13,17 @@ import {
 import type { LinksFunction, LoaderFunction } from 'remix'
 import { RecoilRoot } from 'recoil'
 
+import ToastContainer from '~/components/utils/ToastContainer'
+
 import { getEnv } from './utils/env.server'
 import tailwindUrl from './styles/tailwind.css'
+import toastifyUrl from 'react-toastify/dist/ReactToastify.min.css'
 
 export const links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: tailwindUrl }]
+  return [
+    { rel: 'stylesheet', href: tailwindUrl },
+    { rel: 'stylesheet', href: toastifyUrl }
+  ]
 }
 
 export type LoaderData = {
@@ -44,6 +50,7 @@ export function App() {
       </head>
       <body>
         <Outlet />
+        <ToastContainer />
         <ScrollRestoration />
         <Scripts />
         <script

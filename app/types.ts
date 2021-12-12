@@ -6,6 +6,13 @@ export interface User {
   image?: string
 }
 
+// Error
+export interface Error {
+  message: string
+  status?: number
+  reason?: string
+}
+
 // Auth
 export interface AuthTokens {
   accessToken: string

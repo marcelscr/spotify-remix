@@ -1,5 +1,4 @@
-import { AuthTokens, FullPlaylist, SimplifiedPlaylist } from '~/types'
-import spotifyApi from '~/lib/spotify.server'
+import { FullPlaylist, SimplifiedPlaylist } from '~/types'
 import SpotifyWebApi from 'spotify-web-api-node'
 
 export async function getUserPlaylists(

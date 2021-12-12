@@ -9,14 +9,16 @@ import { useLoaderData, useTransition } from 'remix'
 import invariant from 'tiny-invariant'
 import { useRecoilState } from 'recoil'
 import { useEffect } from 'react'
+import _ from 'lodash'
+import { toast } from 'react-toastify'
 
+import type { Error, FullPlaylist, PlaylistTrack } from '~/types'
 import { getPlaylist } from '~/lib/request'
+import spotifyApi from '~/lib/spotify.server'
 import { authenticator } from '~/services/auth.server'
-import type { FullPlaylist, PlaylistTrack } from '~/types'
-import Loading from '~/components/Loading'
+import Loading from '~/components/utils/Loading'
 import Songs from '~/components/Songs'
 import PlaylistHeader from '~/components/PlaylistHeader'
-import spotifyApi from '~/lib/spotify.server'
 import { currentTrackIdState, isPlayingState } from '~/atoms/songs'
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -44,7 +46,10 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (!trackUri) {
     return {
-      error: 'Could not play song: invalid track uri'
+      error: {
+        status: 404,
+        message: 'Could not play song: invalid track uri'
+      }
     }
   }
 
@@ -55,7 +60,10 @@ export const action: ActionFunction = async ({ request }) => {
   } catch (error) {
     console.error(error)
     return {
-      error
+      error: {
+        status: _.get(error, 'body.error.status'),
+        message: _.get(error, 'body.error.message')
+      }
     }
   }
 
@@ -76,7 +84,7 @@ function Playlist() {
     playlist?: FullPlaylist
   }>()
   const actionData =
-    useActionData<{ trackId: string; isPlaying: boolean; error: string }>()
+    useActionData<{ trackId: string; isPlaying: boolean; error: Error }>()
   const transition = useTransition()
   const submit = useSubmit()
   const [currentTrackId, setCurrentTrackId] =
@@ -86,12 +94,15 @@ function Playlist() {
   const loading =
     transition.state === 'loading' && transition.type !== 'actionReload'
 
+  console.log({ currentTrackId, isPlaying })
   useEffect(() => {
     if (actionData) {
-      setCurrentTrackId(actionData.trackId)
-      setIsPlaying(actionData.isPlaying)
-      {
-        actionData.error && console.error(actionData.error)
+      const { trackId, isPlaying, error } = actionData
+      if (error) {
+        toast.error(error.message)
+      } else {
+        setCurrentTrackId(trackId)
+        setIsPlaying(isPlaying)
       }
     }
   }, [actionData])

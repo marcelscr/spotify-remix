@@ -27,8 +27,6 @@ const scopes = [
   'streaming'
 ].join(' ')
 
-console.log(scopes)
-
 authenticator.use(
   new SpotifyStrategy(
     {
