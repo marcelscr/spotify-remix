@@ -9,14 +9,16 @@ import { userState } from '~/atoms/user'
 import { playlistsState } from '~/atoms/playlists'
 import Layout from '~/components/Layout'
 import { getUserPlaylists, getFeaturedPlaylists } from '~/lib/request'
+import spotifyApi from '~/lib/spotify.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
   const { user, tokens } = await authenticator.isAuthenticated(request, {
     failureRedirect: '/login'
   })
 
-  const userPlaylists = await getUserPlaylists(request, tokens)
-  const featuredPlaylists = await getFeaturedPlaylists(request, tokens)
+  const api = await spotifyApi(request, tokens)
+  const userPlaylists = await getUserPlaylists(api)
+  const featuredPlaylists = await getFeaturedPlaylists(api)
   const playlists = [...userPlaylists, ...featuredPlaylists]
 
   return {

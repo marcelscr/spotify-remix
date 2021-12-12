@@ -17,12 +17,25 @@ if (!process.env.CALLBACK_URL) {
   throw new Error('Missing CALLBACK_URL env')
 }
 
+const scopes = [
+  'user-read-private',
+  'user-read-email',
+  'user-read-playback-state',
+  'user-modify-playback-state',
+  'user-read-currently-playing',
+  'user-read-recently-played',
+  'streaming'
+].join(' ')
+
+console.log(scopes)
+
 authenticator.use(
   new SpotifyStrategy(
     {
       clientID: process.env.SPOTIFY_CLIENT_ID,
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-      callbackURL: process.env.CALLBACK_URL
+      callbackURL: process.env.CALLBACK_URL,
+      scope: scopes
     },
     async (accessToken, refreshToken, { expiresIn, tokenType }, profile) => {
       return {

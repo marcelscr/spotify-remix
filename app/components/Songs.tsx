@@ -1,11 +1,12 @@
-import { FullPlaylist } from '~/types'
+import { FullPlaylist, PlaylistTrack } from '~/types'
 import Song from './Song'
 
 type Props = {
   playlist?: FullPlaylist
+  onClick: (track: PlaylistTrack) => void
 }
 
-function Songs({ playlist }: Props) {
+function Songs({ playlist, onClick }: Props) {
   if (!playlist) return null
 
   return (
@@ -13,7 +14,14 @@ function Songs({ playlist }: Props) {
       {playlist.tracks.items
         .filter(track => track.track)
         .map((track, i) => {
-          return <Song key={track.track.id} track={track} order={i} />
+          return (
+            <Song
+              key={track.track.id}
+              track={track}
+              order={i}
+              onClick={onClick}
+            />
+          )
         })}
     </div>
   )
