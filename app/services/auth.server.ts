@@ -46,7 +46,7 @@ authenticator.use(
         tokens: {
           accessToken,
           refreshToken,
-          expiresIn,
+          expiresAt: Date.now() + expiresIn * 1000,
           tokenType
         }
       }

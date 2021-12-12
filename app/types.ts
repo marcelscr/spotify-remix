@@ -30,3 +30,4 @@ export interface AuthResponse {
 export type SimplifiedPlaylist = SpotifyApi.PlaylistObjectSimplified
 export type FullPlaylist = SpotifyApi.PlaylistObjectFull
 export type PlaylistTrack = SpotifyApi.PlaylistTrackObject
+export type SingleTrack = SpotifyApi.SingleTrackResponse

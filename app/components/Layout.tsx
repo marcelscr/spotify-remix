@@ -1,5 +1,6 @@
 import LayoutHeader from './LayoutHeader'
 import Sidebar from './Sidebar'
+import Player from './Player'
 
 type Props = {
   children: JSX.Element
@@ -17,7 +18,9 @@ function Layout({ children }: Props) {
           </div>
         </div>
       </main>
-      <div>{/* Player */}</div>
+      <div className="sticky bottom-0">
+        <Player />
+      </div>
     </div>
   )
 }
