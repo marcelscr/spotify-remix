@@ -96,16 +96,6 @@ function Playlist() {
     }
   }, [actionData])
 
-  const onSongClick = (track: PlaylistTrack) => {
-    submit(
-      {
-        trackId: track.track.id,
-        trackUri: track.track.uri
-      },
-      { method: 'post' }
-    )
-  }
-
   return (
     <>
       <section>
@@ -121,7 +111,18 @@ function Playlist() {
             <Loading />
           </div>
         ) : (
-          <Songs playlist={data.playlist} onClick={onSongClick} />
+          <Songs
+            playlist={data.playlist}
+            onClick={(track: PlaylistTrack) => {
+              submit(
+                {
+                  trackId: track.track.id,
+                  trackUri: track.track.uri
+                },
+                { method: 'post' }
+              )
+            }}
+          />
         )}
       </section>
     </>
