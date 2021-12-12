@@ -52,7 +52,7 @@ const Sidebar = () => {
   const playlists = useRecoilValue(playlistsState)
 
   return (
-    <div className="text-gray-500 p-5 text-sm border-gray-900 border-r overflow-y-scroll scrollbar-hide h-screen pr-16">
+    <div className="text-gray-500 p-5 text-sm border-gray-900 border-r overflow-y-scroll scrollbar-hide h-screen pr-16 pb-36">
       <div className="space-y-4">
         <Form action="/logout" method="post">
           <button className="cursor-pointer hover:text-white">Logout</button>
