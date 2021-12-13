@@ -5,14 +5,13 @@ import { useEffect } from 'react'
 
 import { authenticator } from '~/services/auth.server'
 import type { SimplifiedPlaylist, User } from '~/types'
-import { userState } from '~/atoms/user'
 import { playlistsState } from '~/atoms/playlists'
 import Layout from '~/components/Layout'
 import { getUserPlaylists, getFeaturedPlaylists } from '~/lib/request'
 import spotifyApi from '~/lib/spotify.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { user, tokens } = await authenticator.isAuthenticated(request, {
+  const { tokens } = await authenticator.isAuthenticated(request, {
     failureRedirect: '/login'
   })
 
@@ -22,8 +21,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   const playlists = [...userPlaylists, ...featuredPlaylists]
 
   return {
-    playlists,
-    user
+    playlists
   }
 }
 
@@ -39,11 +37,9 @@ export default function Index() {
     playlists: SimplifiedPlaylist[]
   }>()
   const [_, setPlaylists] = useRecoilState(playlistsState)
-  const [__, setUser] = useRecoilState(userState)
 
   useEffect(() => {
     setPlaylists(data.playlists)
-    setUser(data.user)
   }, [data])
 
   return (

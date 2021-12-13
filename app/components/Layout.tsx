@@ -1,5 +1,6 @@
 import LayoutHeader from './LayoutHeader'
 import Sidebar from './Sidebar'
+import Player from './Player'
 
 type Props = {
   children: JSX.Element
@@ -10,14 +11,14 @@ function Layout({ children }: Props) {
     <div className="bg-black h-screen">
       <main className="flex">
         <Sidebar />
-        <div className="flex-grow">
-          <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
-            <LayoutHeader />
-            {children}
-          </div>
+        <div className="flex-grow overflow-hidden overflow-y-scroll scrollbar-hide h-screen">
+          <LayoutHeader />
+          {children}
         </div>
       </main>
-      <div>{/* Player */}</div>
+      <div className="sticky bottom-0">
+        <Player />
+      </div>
     </div>
   )
 }

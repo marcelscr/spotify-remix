@@ -11,9 +11,14 @@ import {
   useLocation
 } from 'remix'
 import type { LinksFunction, LoaderFunction } from 'remix'
-import { RecoilRoot } from 'recoil'
+import { RecoilRoot, useRecoilState } from 'recoil'
+import { useEffect } from 'react'
 
 import ToastContainer from '~/components/utils/ToastContainer'
+import { authenticator } from '~/services/auth.server'
+import type { AuthTokens, User } from '~/types'
+import { userState } from '~/atoms/user'
+import SpotifyClientApi from '~/lib/spotify.client'
 
 import { getEnv } from './utils/env.server'
 import tailwindUrl from './styles/tailwind.css'
@@ -28,17 +33,38 @@ export const links: LinksFunction = () => {
 
 export type LoaderData = {
   ENV: ReturnType<typeof getEnv>
+  user: User
+  tokens: AuthTokens
 }
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const { user, tokens } = await authenticator.isAuthenticated(request, {
+    failureRedirect: '/login'
+  })
+
   const data: LoaderData = {
-    ENV: getEnv()
+    ENV: getEnv(),
+    user,
+    tokens
   }
+
   return json(data)
 }
 
 export function App() {
   const data = useLoaderData<LoaderData>()
+  const [_, setUser] = useRecoilState(userState)
+
+  useEffect(() => {
+    console.log('Changing data. Calling useEffect on root.tsx.')
+    setUser(data.user)
+
+    SpotifyClientApi.init(
+      data.ENV.SPOTIFY_CLIENT_ID,
+      data.ENV.SPOTIFY_CLIENT_SECRET,
+      data.tokens
+    )
+  }, [data])
 
   return (
     <html lang="en">

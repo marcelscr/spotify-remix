@@ -16,9 +16,9 @@ export interface Error {
 // Auth
 export interface AuthTokens {
   accessToken: string
-  refreshToken: string
-  expiresIn?: number
-  tokenType: string
+  refreshToken?: string
+  expiresAt: number
+  tokenType?: string
 }
 
 export interface AuthResponse {
@@ -30,3 +30,4 @@ export interface AuthResponse {
 export type SimplifiedPlaylist = SpotifyApi.PlaylistObjectSimplified
 export type FullPlaylist = SpotifyApi.PlaylistObjectFull
 export type PlaylistTrack = SpotifyApi.PlaylistTrackObject
+export type SingleTrack = SpotifyApi.SingleTrackResponse
