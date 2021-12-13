@@ -64,7 +64,7 @@ const Player = () => {
 
   return (
     <div className="h-24 bg-gradient-to-b from-black to-gray-900 text-white grid grid-cols-3 text-xs md:text-base px-2 md:px-8">
-      {/*Left */}
+      {/* Left */}
       <div className="flex items-center space-x-4">
         {songInfo && (
           <>
@@ -81,7 +81,7 @@ const Player = () => {
         )}
       </div>
 
-      {/*Center */}
+      {/* Center */}
       <div className="flex items-center justify-evenly">
         <ReplyIcon className={iconButtonClassname} />
         <RewindIcon
@@ -110,6 +110,20 @@ const Player = () => {
           }}
         />
         <SwitchHorizontalIcon className={iconButtonClassname} />
+      </div>
+
+      {/* Right */}
+      <div className="flex items-center space-x-3 md:space-x-4 justify-end pr-5">
+        <VolumeDownIcon className={iconButtonClassname} />
+        <input
+          className="w-14 md:w-28"
+          type="range"
+          min={0}
+          max={100}
+          value={volume}
+          onChange={() => {}}
+        />
+        <VolumeUpIcon className={iconButtonClassname} />
       </div>
     </div>
   )
