@@ -33,19 +33,17 @@ export const links: LinksFunction = () => {
 
 export type LoaderData = {
   ENV: ReturnType<typeof getEnv>
-  user: User
-  tokens: AuthTokens
+  user?: User
+  tokens?: AuthTokens
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const { user, tokens } = await authenticator.isAuthenticated(request, {
-    failureRedirect: '/login'
-  })
+  const authResponse = await authenticator.isAuthenticated(request, {})
 
   const data: LoaderData = {
     ENV: getEnv(),
-    user,
-    tokens
+    user: authResponse?.user,
+    tokens: authResponse?.tokens
   }
 
   return json(data)
@@ -57,13 +55,15 @@ export function App() {
 
   useEffect(() => {
     console.log('Changing data. Calling useEffect on root.tsx.')
-    setUser(data.user)
+    setUser(data.user ?? null)
 
-    SpotifyClientApi.init(
-      data.ENV.SPOTIFY_CLIENT_ID,
-      data.ENV.SPOTIFY_CLIENT_SECRET,
-      data.tokens
-    )
+    if (data.tokens) {
+      SpotifyClientApi.init(
+        data.ENV.SPOTIFY_CLIENT_ID,
+        data.ENV.SPOTIFY_CLIENT_SECRET,
+        data.tokens
+      )
+    }
   }, [data])
 
   return (

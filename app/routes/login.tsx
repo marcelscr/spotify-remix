@@ -15,7 +15,7 @@ export default function Login() {
       <SpotifyLogo />
       <form action="/auth/spotify" method="post">
         <button
-          className="bg-[#18D860] p-5 rounded-full font-semibold"
+          className="bg-[#18D860] px-5 py-2 rounded-full font-semibold"
           onClick={() => setLoggingIn(true)}>
           {loggingIn ? 'Logging in...' : 'Login with Spotify'}
         </button>
