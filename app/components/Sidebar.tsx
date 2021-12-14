@@ -42,7 +42,7 @@ const items = {
 const SidebarButton = ({ item }: SidebarButtonProps) => (
   <button className="flex items-center space-x-2 hover:text-white">
     {item.icon}
-    <p>{item.title}</p>
+    <p className="truncate">{item.title}</p>
   </button>
 )
 

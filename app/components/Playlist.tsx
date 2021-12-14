@@ -20,8 +20,8 @@ function Playlist({ playlist, order }: Props) {
           <p className="w-40 lg:w-96">{playlist.description}</p>
         </div>
       </div>
-      <div className="flex items-center justify-between ml-auto md:ml-0">
-        <p className="w-40 hidden md:inline ">{playlist.tracks.total} songs</p>
+      <div className="hidden md:flex items-center justify-between ml-auto md:ml-0">
+        <p className="w-40">{playlist.tracks.total} songs</p>
         <p>{playlist.owner.display_name}</p>
       </div>
     </div>
