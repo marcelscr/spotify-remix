@@ -12,18 +12,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - name: Set up npm
-        id: npm
-        run: |
-          npm config set prefix ${HOME}/.npm-global
-          echo "::add-path::$(npm bin -g)"
-          echo "::set-output name=cache-dir::$(npm config get cache)"
       - name: Set up yarn
-        id: yarn
-        run: |
-          npm install -g yarn
-          echo "::add-path::$(yarn global bin)"
-          echo "::set-output name=cache-dir::$(yarn cache dir)"
+        run: npm install -g yarn
       - name: Install dependencies
         run: yarn install
       - name: Lint
