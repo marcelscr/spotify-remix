@@ -36,7 +36,7 @@ export default function Index() {
     user: User
     playlists: SimplifiedPlaylist[]
   }>()
-  const [_, setPlaylists] = useRecoilState(playlistsState)
+  const [, setPlaylists] = useRecoilState(playlistsState)
 
   useEffect(() => {
     setPlaylists(data.playlists)

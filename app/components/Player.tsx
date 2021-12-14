@@ -17,8 +17,7 @@ import useSongInfo from '~/hooks/useSongInfo'
 import { currentTrackIdState, isPlayingState } from '~/atoms/songs'
 
 const Player = () => {
-  const [currentTrackId, setCurrentTrackId] =
-    useRecoilState(currentTrackIdState)
+  const [, setCurrentTrackId] = useRecoilState(currentTrackIdState)
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState)
   const [volume, setVolume] = useState(50)
 
@@ -66,8 +65,6 @@ const Player = () => {
     }, 500),
     []
   )
-
-  console.log('Song Info', songInfo)
 
   const iconButtonClassname =
     'w-5 h-5 cursor-pointer hover:scale-125 transition transform duration-100 ease-out'

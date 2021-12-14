@@ -1,16 +1,11 @@
 import { useEffect } from 'react'
 import { useRecoilValue, useRecoilState } from 'recoil'
 
-import {
-  currentTrackIdState,
-  isPlayingState,
-  currentSongInfoState
-} from '~/atoms/songs'
+import { currentTrackIdState, currentSongInfoState } from '~/atoms/songs'
 import SpotifyClientApi from '~/lib/spotify.client'
 
 const useSongInfo = () => {
   const currentTrackId = useRecoilValue(currentTrackIdState)
-  const isPlaying = useRecoilValue(isPlayingState)
   const [songInfo, setSongInfo] = useRecoilState(currentSongInfoState)
 
   useEffect(() => {

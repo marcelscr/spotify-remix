@@ -51,10 +51,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export function App() {
   const data = useLoaderData<LoaderData>()
-  const [_, setUser] = useRecoilState(userState)
+  const [, setUser] = useRecoilState(userState)
 
   useEffect(() => {
-    console.log('Changing data. Calling useEffect on root.tsx.')
     setUser(data.user ?? null)
 
     if (data.tokens) {

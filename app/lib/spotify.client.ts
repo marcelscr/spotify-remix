@@ -2,6 +2,7 @@ import SpotifyWebApi from 'spotify-web-api-node'
 import { AuthTokens } from '~/types'
 import { encode } from 'base-64'
 
+// I'm not happy with this class. There must be an easier way to use the API on the client side
 class SpotifyClientApi {
   private client: SpotifyWebApi
   private expiresAt: number
@@ -22,6 +23,7 @@ class SpotifyClientApi {
   }
 
   async refreshAccessToken() {
+    // Making the request manually since the Spotify Api is not working
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -42,8 +44,6 @@ class SpotifyClientApi {
     await fetch('https://accounts.spotify.com/api/token', requestOptions)
       .then(response => response.json())
       .then(data => {
-        console.log('Refresh data:', data)
-
         this.client.setAccessToken(data.body['access_token'])
         this.expiresAt = Date.now() + data.body['expires_in'] * 1000
       })
@@ -54,13 +54,10 @@ class SpotifyClientApi {
       await this.client.getAccessToken()
     }
 
-    console.log('Refreshing the token1')
     if (Date.now() < this.expiresAt) {
-      console.log('Refreshing the token2')
       await this.refreshAccessToken()
     }
 
-    console.log('Getting the client', this.client)
     return this.client
   }
 }
