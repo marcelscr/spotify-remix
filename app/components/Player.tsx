@@ -24,30 +24,33 @@ const Player = () => {
 
   const songInfo = useSongInfo()
 
-  const fetchCurrentSong = async () => {
+  const fetchCurrentSong = () => {
     if (!songInfo) {
-      const api = await SpotifyClientApi.get()
-      await api.getMyCurrentPlayingTrack().then(data => {
-        console.log('Now playing: ', data.body?.item)
-        setCurrentTrackId(data.body?.item?.id)
-      })
-      await api
-        .getMyCurrentPlaybackState()
+      SpotifyClientApi.get()
+        .then(api => api.getMyCurrentPlayingTrack())
+        .then(data => {
+          console.log('Now playing: ', data.body?.item)
+          setCurrentTrackId(data.body?.item?.id)
+        })
+
+      SpotifyClientApi.get()
+        .then(api => api.getMyCurrentPlaybackState())
         .then(data => setIsPlaying(data.body?.is_playing))
     }
   }
 
-  const handlePlayPause = async () => {
-    const api = await SpotifyClientApi.get()
-    api.getMyCurrentPlaybackState().then(data => {
-      if (data.body.is_playing) {
-        api.pause()
-        setIsPlaying(false)
-      } else {
-        api.play()
-        setIsPlaying(true)
-      }
-    })
+  const handlePlayPause = () => {
+    return SpotifyClientApi.get()
+      .then(api => api.getMyCurrentPlaybackState())
+      .then(data => {
+        if (data.body.is_playing) {
+          SpotifyClientApi.get().then(api => api.pause())
+          setIsPlaying(false)
+        } else {
+          SpotifyClientApi.get().then(api => api.play())
+          setIsPlaying(true)
+        }
+      })
   }
 
   useEffect(() => {
@@ -63,11 +66,12 @@ const Player = () => {
 
   const debouncedAdjustVolume = useCallback(
     debounce(async volume => {
-      const api = await SpotifyClientApi.get()
-      api.setVolume(volume).catch(err => {
-        console.error({ err })
-        toast.error(err.message)
-      })
+      SpotifyClientApi.get()
+        .then(api => api.setVolume(volume))
+        .catch(err => {
+          console.error({ err })
+          toast.error(err.message)
+        })
     }, 500),
     []
   )
@@ -102,7 +106,7 @@ const Player = () => {
         <RewindIcon
           className={iconButtonClassname}
           onClick={async () => {
-            // Not working
+            // Not working properly
             SpotifyClientApi.get().then(api => api.skipToPrevious())
           }}
         />
@@ -120,7 +124,7 @@ const Player = () => {
         <FastForwardIcon
           className={iconButtonClassname}
           onClick={async () => {
-            // Not working
+            // Not working properly
             SpotifyClientApi.get().then(api => api.skipToNext())
           }}
         />

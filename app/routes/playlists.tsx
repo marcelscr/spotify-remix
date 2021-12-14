@@ -7,7 +7,6 @@ import { authenticator } from '~/services/auth.server'
 import type { SimplifiedPlaylist, User } from '~/types'
 import { playlistsState } from '~/atoms/playlists'
 import Layout from '~/components/Layout'
-import { getUserPlaylists, getFeaturedPlaylists } from '~/lib/request'
 import spotifyApi from '~/lib/spotify.server'
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -16,8 +15,12 @@ export const loader: LoaderFunction = async ({ request }) => {
   })
 
   const api = await spotifyApi(request, tokens)
-  const userPlaylists = await getUserPlaylists(api)
-  const featuredPlaylists = await getFeaturedPlaylists(api)
+  const userPlaylists = await api
+    .getUserPlaylists()
+    .then(data => data.body.items)
+  const featuredPlaylists = await api
+    .getFeaturedPlaylists()
+    .then(data => data.body.playlists.items)
   const playlists = [...userPlaylists, ...featuredPlaylists]
 
   return {

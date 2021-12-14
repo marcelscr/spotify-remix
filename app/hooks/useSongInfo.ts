@@ -9,14 +9,11 @@ const useSongInfo = () => {
   const [songInfo, setSongInfo] = useRecoilState(currentSongInfoState)
 
   useEffect(() => {
-    const fetchSongInfo = async () => {
+    const fetchSongInfo = () => {
       if (currentTrackId) {
-        const api = await SpotifyClientApi.get()
-        const trackInfo = await api
-          .getTrack(currentTrackId)
-          .then(data => data.body)
-
-        setSongInfo(trackInfo)
+        SpotifyClientApi.get()
+          .then(api => api.getTrack(currentTrackId))
+          .then(data => setSongInfo(data.body))
       }
     }
     fetchSongInfo()

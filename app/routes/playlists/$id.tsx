@@ -13,7 +13,6 @@ import _ from 'lodash'
 import { toast } from 'react-toastify'
 
 import type { Error, FullPlaylist, PlaylistTrack } from '~/types'
-import { getPlaylist } from '~/lib/request'
 import spotifyApi from '~/lib/spotify.server'
 import { authenticator } from '~/services/auth.server'
 import Loading from '~/components/utils/Loading'
@@ -27,11 +26,16 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   })
   invariant(params.id, 'expected params.id')
 
-  const api = await spotifyApi(request, tokens)
-  const playlist = await getPlaylist(api, params.id)
+  try {
+    const api = await spotifyApi(request, tokens)
+    const playlist = await api.getPlaylist(params.id).then(data => data.body)
 
-  return {
-    playlist
+    return {
+      playlist
+    }
+  } catch (error) {
+    console.error(error)
+    throw new Response('Not Found', { status: 404 })
   }
 }
 
