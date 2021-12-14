@@ -54,7 +54,7 @@ class SpotifyClientApi {
       await this.client.getAccessToken()
     }
 
-    if (Date.now() < this.expiresAt) {
+    if (Date.now() > this.expiresAt) {
       await this.refreshAccessToken()
     }
 
