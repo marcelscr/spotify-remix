@@ -44,8 +44,8 @@ class SpotifyClientApi {
     await fetch('https://accounts.spotify.com/api/token', requestOptions)
       .then(response => response.json())
       .then(data => {
-        this.client.setAccessToken(data.body['access_token'])
-        this.expiresAt = Date.now() + data.body['expires_in'] * 1000
+        this.client.setAccessToken(data['access_token'])
+        this.expiresAt = Date.now() + data['expires_in'] * 1000
       })
   }
 
