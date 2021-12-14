@@ -10,6 +10,7 @@ import {
   VolumeUpIcon,
   SwitchHorizontalIcon
 } from '@heroicons/react/solid'
+import { toast } from 'react-toastify'
 
 import { debounce } from 'lodash'
 import SpotifyClientApi from '~/lib/spotify.client'
@@ -55,13 +56,18 @@ const Player = () => {
   }, [currentTrackIdState])
 
   useEffect(() => {
-    debouncedAdjustVolume(volume)
+    if (songInfo) {
+      debouncedAdjustVolume(volume)
+    }
   }, [volume])
 
   const debouncedAdjustVolume = useCallback(
     debounce(async volume => {
       const api = await SpotifyClientApi.get()
-      api.setVolume(volume).catch(err => console.error(err))
+      api.setVolume(volume).catch(err => {
+        console.error({ err })
+        toast.error(err.message)
+      })
     }, 500),
     []
   )
