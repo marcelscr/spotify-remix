@@ -18,7 +18,7 @@ function LayoutHeader() {
               src={user.image}
               alt="user image"
             />
-            <h2>{user.name ?? user.id}</h2>
+            <h2 className="hidden md:inline">{user.name ?? user.id}</h2>
             <ChevronDownIcon className="w-5 h-5" />
           </div>
         </Link>
