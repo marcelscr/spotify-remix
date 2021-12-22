@@ -10,7 +10,7 @@ type Props = {
 function Song({ track, order, onClick }: Props) {
   return (
     <div
-      className="grid grid-cols-2 text-gray-500 py-4 px-5 hover:bg-gray-900 rounded-lg cursor-pointer"
+      className="grid sm:grid-cols-2 text-gray-500 py-4 px-5 hover:bg-gray-900 rounded-lg cursor-pointer"
       onClick={() => onClick(track)}>
       <div className="flex items-center space-x-4">
         <p>{order + 1}</p>
@@ -20,7 +20,7 @@ function Song({ track, order, onClick }: Props) {
           alt="song album image"
         />
         <div>
-          <p className="w-36 lg:w-96 truncate text-white">{track.track.name}</p>
+          <p className="w-56 lg:w-96 truncate text-white">{track.track.name}</p>
           <p className="w-40">{track.track.artists[0].name}</p>
         </div>
       </div>

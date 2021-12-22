@@ -9,6 +9,7 @@ import {
 import { Link } from 'remix'
 import _ from 'lodash'
 import { useRecoilValue } from 'recoil'
+import cn from 'classnames'
 
 import { playlistsState } from '~/atoms/playlists'
 
@@ -48,11 +49,19 @@ const SidebarButton = ({ item }: SidebarButtonProps) => (
 
 const SidebarDivider = () => <hr className="border-t-[0.1px] border-gray-900" />
 
-const Sidebar = () => {
+type Props = {
+  className?: string
+}
+
+const Sidebar = ({ className }: Props) => {
   const playlists = useRecoilValue(playlistsState)
 
   return (
-    <div className="text-gray-500 p-5 text-sm border-gray-900 border-r overflow-y-scroll scrollbar-hide h-screen pr-16 pb-36">
+    <div
+      className={cn(
+        'text-gray-500 p-5 text-sm border-gray-900 border-r overflow-y-scroll scrollbar-hide h-screen pr-16 pb-36',
+        className
+      )}>
       <div className="space-y-4">
         <SidebarButton item={items.home} />
         <SidebarButton item={items.search} />

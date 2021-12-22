@@ -10,7 +10,7 @@ function Layout({ children }: Props) {
   return (
     <div className="bg-black h-screen">
       <main className="flex">
-        <Sidebar />
+        <Sidebar className="hidden md:inline" />
         <div className="flex-grow overflow-hidden overflow-y-scroll scrollbar-hide h-screen">
           <LayoutHeader />
           {children}

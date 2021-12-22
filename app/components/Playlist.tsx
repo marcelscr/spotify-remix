@@ -7,7 +7,7 @@ type Props = {
 
 function Playlist({ playlist, order }: Props) {
   return (
-    <div className="grid grid-cols-2 text-gray-500 py-4 px-5 hover:bg-gray-900 rounded-lg cursor-pointer">
+    <div className="grid md:grid-cols-2 text-gray-500 py-4 px-5 hover:bg-gray-900 rounded-lg cursor-pointer">
       <div className="flex items-center space-x-4">
         <p>{order + 1}</p>
         <img
@@ -16,8 +16,8 @@ function Playlist({ playlist, order }: Props) {
           alt="playlist image"
         />
         <div>
-          <p className="w-36 lg:w-96 truncate text-white">{playlist.name}</p>
-          <p className="w-40 lg:w-80">{playlist.description}</p>
+          <p className="truncate text-white">{playlist.name}</p>
+          <p>{playlist.description}</p>
         </div>
       </div>
       <div className="hidden md:flex items-center justify-between ml-auto md:ml-0">
