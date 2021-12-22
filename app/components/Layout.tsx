@@ -1,6 +1,7 @@
 import LayoutHeader from './LayoutHeader'
 import Sidebar from './Sidebar'
 import Player from './Player'
+import Navbar from './Navbar'
 
 type Props = {
   children: JSX.Element
@@ -18,6 +19,7 @@ function Layout({ children }: Props) {
       </main>
       <div className="sticky bottom-0">
         <Player />
+        <Navbar className="inline md:hidden" />
       </div>
     </div>
   )
