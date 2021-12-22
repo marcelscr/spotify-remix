@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil'
-import type { MetaFunction, LoaderFunction } from 'remix'
+import { MetaFunction, LoaderFunction, redirect } from 'remix'
 import { useLoaderData, Outlet } from 'remix'
 import { useEffect } from 'react'
 
@@ -14,17 +14,22 @@ export const loader: LoaderFunction = async ({ request }) => {
     failureRedirect: '/login'
   })
 
-  const api = await spotifyApi(request, tokens)
-  const userPlaylists = await api
-    .getUserPlaylists()
-    .then(data => data.body.items)
-  const featuredPlaylists = await api
-    .getFeaturedPlaylists()
-    .then(data => data.body.playlists.items)
-  const playlists = [...userPlaylists, ...featuredPlaylists]
+  try {
+    const api = await spotifyApi(request, tokens)
+    const userPlaylists = await api
+      .getUserPlaylists()
+      .then(data => data.body.items)
+    const featuredPlaylists = await api
+      .getFeaturedPlaylists()
+      .then(data => data.body.playlists.items)
+    const playlists = [...userPlaylists, ...featuredPlaylists]
 
-  return {
-    playlists
+    return {
+      playlists
+    }
+  } catch (error) {
+    console.log(error)
+    return redirect('/logout')
   }
 }
 

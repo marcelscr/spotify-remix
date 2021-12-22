@@ -11,6 +11,7 @@ import {
   SwitchHorizontalIcon
 } from '@heroicons/react/solid'
 import { toast } from 'react-toastify'
+import cn from 'classnames'
 
 import { debounce } from 'lodash'
 import SpotifyClientApi from '~/lib/spotify.client'
@@ -102,7 +103,7 @@ const Player = () => {
 
       {/* Center */}
       <div className="flex items-center justify-evenly">
-        <ReplyIcon className={iconButtonClassname} />
+        <ReplyIcon className={cn(iconButtonClassname, 'hidden md:inline')} />
         <RewindIcon
           className={iconButtonClassname}
           onClick={async () => {
@@ -128,7 +129,9 @@ const Player = () => {
             SpotifyClientApi.get().then(api => api.skipToNext())
           }}
         />
-        <SwitchHorizontalIcon className={iconButtonClassname} />
+        <SwitchHorizontalIcon
+          className={cn(iconButtonClassname, 'hidden md:inline')}
+        />
       </div>
 
       {/* Right */}

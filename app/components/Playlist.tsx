@@ -17,7 +17,7 @@ function Playlist({ playlist, order }: Props) {
         />
         <div>
           <p className="w-36 lg:w-96 truncate text-white">{playlist.name}</p>
-          <p className="w-40 lg:w-96">{playlist.description}</p>
+          <p className="w-40 lg:w-80">{playlist.description}</p>
         </div>
       </div>
       <div className="hidden md:flex items-center justify-between ml-auto md:ml-0">

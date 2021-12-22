@@ -28,7 +28,7 @@ const PlaylistHeader = ({ title, subtitle, imageUrl }: Props) => {
     <div
       className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-60 text-white p-8 `}>
       <img
-        className="w-44 h-44 shadow-2xl rounded-lg"
+        className="w-24 h-24 md:w-44 md:h-44 shadow-2xl rounded-lg"
         src={imageUrl}
         alt="playlist image"
       />
