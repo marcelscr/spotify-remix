@@ -39,7 +39,7 @@ const Navbar = ({ className }: Props) => {
   return (
     <div
       className={cn(
-        'bg-gray-900 flex items-center text-xs justify-around pb-4 ',
+        'bg-gray-900 flex items-center text-xs justify-evenly pb-4 ',
         className
       )}>
       <NavbarButton item={items.home} />

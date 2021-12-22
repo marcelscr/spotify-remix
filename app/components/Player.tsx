@@ -83,9 +83,9 @@ const Player = () => {
     'w-10 h-10 cursor-pointer hover:scale-125 transition transform duration-100 ease-out'
 
   return (
-    <div className="h-24 bg-gradient-to-b from-black to-gray-900 text-white grid grid-cols-3 text-xs md:text-base  md:px-8">
+    <div className="h-24 bg-gradient-to-b from-black to-gray-900 text-white grid grid-cols-3 text-xs md:text-base md:px-8">
       {/* Left */}
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4 justify-center md:justify-start">
         {songInfo && (
           <>
             <img
@@ -135,7 +135,7 @@ const Player = () => {
       </div>
 
       {/* Right */}
-      <div className="flex items-center space-x-3 md:space-x-4 justify-end pr-5">
+      <div className="flex items-center space-x-3 md:space-x-4 justify-center md:justify-end">
         <VolumeDownIcon
           className={iconButtonClassname}
           onClick={() => {
