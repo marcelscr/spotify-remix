@@ -1,6 +1,5 @@
 import { HomeIcon, SearchIcon, LibraryIcon } from '@heroicons/react/outline'
-import { Link, NavLink } from 'remix'
-import _ from 'lodash'
+import { NavLink } from 'remix'
 import cn from 'classnames'
 
 const items = {
